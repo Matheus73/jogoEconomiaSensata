@@ -1,0 +1,131 @@
+{
+  "Agricultura e desenvolvimento rural": {
+    "input": {
+      "NV.AGR.TOTL.CD": "Agriculture, forestry, and fishing, value added (current US$)"
+    },
+    "output": {
+      "SL.AGR.EMPL.ZS": "Employment in agriculture (% of total employment) (modeled ILO estimate)",
+      "AG.PRD.FOOD.XD": "Food production index (2014-2016 = 100)",
+      "SP.RUR.TOTL.ZS": "Rural population (% of total population)"
+    },
+    "output-negative": {}
+  },
+  "Educacao": {
+    "input": {
+      "SE.XPD.PRIM.ZS": "Expenditure on primary education (% of government expenditure on education)",
+      "SE.XPD.SECO.ZS": "Expenditure on secondary education (% of government expenditure on education)",
+      "SE.XPD.TERT.ZS": "Expenditure on tertiary education (% of government expenditure on education)",
+      "SE.XPD.TOTL.GB.ZS": "Government expenditure on education, total (% of government expenditure)"
+    },
+    "output": {
+      "SE.ADT.LITR.ZS": "Literacy rate, adult total (% of people ages 15 and above)",
+      "SE.ADT.1524.LT.ZS": "Literacy rate, youth total (% of people ages 15-24)",
+      "SE.PRM.CMPT.ZS": "Primary completion rate, total (% of relevant age group)"
+    },
+    "output-negative": {
+      "SE.SEC.CMPT.LO.ZS": "Lower secondary completion rate, total (% of relevant age group)",
+      "SE.SEC.UNER.LO.ZS": "Adolescents out of school (% of lower secondary school age)",
+      "SE.PRM.UNER.ZS": "Children out of school (% of primary school age)"
+    }
+  },
+  "Mudancas climaticas e meio ambiente": {
+    "input": {},
+    "output-negative": {},
+    "output": {
+      "EG.ELC.ACCS.ZS": "Access to electricity (% of population)",
+      "EG.ELC.HYRO.ZS": "Electricity production from hydroelectric sources (% of total)",
+      "EG.ELC.RNWX.ZS": "Electricity production from renewable sources, excluding hydroelectric (% of total)"
+    }
+  },
+  "Saude": {
+    "input": {
+      "SH.XPD.CHEX.PC.CD": "Current health expenditure per capita (current US$)"
+    },
+    "output": {
+      "SH.UHC.SRVS.CV.XD": "UHC service coverage index",
+      "SH.CON.1524.MA.ZS": "Condom use, population ages 15-24, male (% of males ages 15-24)",
+      "SH.IMM.MEAS": "Immunization, measles (% of children ages 12-23 months)",
+      "SH.H2O.BASW.ZS": "People using at least basic drinking water services (% of population)",
+      "SH.STA.BASS.ZS": "People using at least basic sanitation services (% of population)",
+      "SH.H2O.SMDW.ZS": "People using safely managed drinking water services (% of population)",
+      "SH.STA.HYGN.ZS": "People with basic handwashing facilities including soap and water (% of population)",
+      "SH.MED.BEDS.ZS": "Hospital beds (per 1,000 people)",
+      "SH.MED.NUMW.P3": "Nurses and midwives (per 1,000 people)",
+      "SH.MED.PHYS.ZS": "Physicians (per 1,000 people)",
+      "SH.MED.SAOP.P5": "Specialist surgical workforce (per 100,000 population)",
+      "SH.PRV.SMOK": "Prevalence of current tobacco use (% of adults)",
+      "SH.DYN.AIDS.ZS": "Prevalence of HIV, total (% of population ages 15-49)"
+    },
+    "output-negative": {}
+  },
+  "Infraestreutura, Ciencia e Tecnologia": {
+    "input": {},
+    "output": {
+      "IT.NET.SECR.P6": "Secure Internet servers (per 1 million people)",
+      "IP.IDS.NRCT": "Industrial design applications, nonresident, by count",
+      "IP.IDS.RSCT": "Industrial design applications, resident, by count",
+      "GB.XPD.RSDV.GD.ZS": "Research and development expenditure (% of GDP)",
+      "IP.JRN.ARTC.SC": "Scientific and technical journal articles",
+      "EP.PMP.SGAS.CD": "Pump price for gasoline (US$ per liter)",
+      "IS.RRS.GOOD.MT.K6": "Railways, goods transported (million ton-km)",
+      "IS.SHP.GOOD.TU": "Container port traffic (TEU: 20 foot equivalent units)",
+      "IT.CEL.SETS.P2": "Mobile cellular subscriptions (per 100 people)"
+    },
+    "output-negative": {}
+  },
+  "Desenvolvimento": {
+    "input": {},
+    "output": {
+      "SI.POV.GINI": "Gini index (World Bank estimate)",
+      "SI.SPR.PC40.ZG": "Annualized average growth rate in per capita real survey mean consumption or income, bottom 40% of population (%)",
+      "SL.EMP.VULN.ZS": "Vulnerable employment, total (% of total employment) (modeled ILO estimate)",
+      "SL.UEM.TOTL.NE.ZS": "Unemployment, total (% of total labor force) (national estimate)"
+    },
+    "output-negative": {
+      "SI.DST.50MD": "Proportion of people living below 50 percent of median income (%)"
+    }
+  },
+  "Banco Central": {
+    "input": {
+      "FR.INR.DPST": "Deposit interest rate (%)"
+    },
+    "output": {
+      "FR.INR.RINR": "Real interest rate (%)",
+      "FM.LBL.BMNY.GD.ZS": "Broad money (% of GDP)",
+      "FM.LBL.BMNY.ZG": "Broad money growth (annual %)",
+      "DT.DOD.DLXF.CD": "External debt stocks, long-term (DOD, current US$)",
+      "DT.DOD.DSTC.CD": "External debt stocks, short-term (DOD, current US$)",
+      "DT.DOD.DSTC.IR.ZS": "Short-term debt (% of total reserves)",
+      "FP.CPI.TOTL": "Consumer price index (2010 = 100)",
+      "FP.CPI.TOTL.ZG": "Inflation, consumer prices (annual %)",
+      "NY.GDP.DEFL.KD.ZG.AD": "Inflation, GDP deflator: linked series (annual %)",
+      "PA.NUS.FCRF": "Official exchange rate (LCU per US$, period average)"
+    },
+    "output-negative": {
+      "DT.DOD.PVLX.CD": "Present value of external debt (current US$)"
+    }
+  },
+  "Economia": {
+    "input": {
+      "IE.PPN.ENGY.CD": "Public private partnerships investment in energy (current US$)",
+      "IE.PPN.ICTI.CD": "Public private partnerships investment in ICT (current US$)",
+      "IE.PPN.TRAN.CD": "Public private partnerships investment in transport (current US$)",
+      "IE.PPN.WATR.CD": "Public private partnerships investment in water and sanitation (current US$)",
+      "NY.GDP.FCST.CD": "Gross value added at basic prices (GVA) (current US$)",
+      "NV.AGR.TOTL.CD": "Agriculture, forestry, and fishing, value added (current US$)",
+      "NV.IND.TOTL.CD": "Industry (including construction), value added (current US$)",
+      "NV.IND.MANF.CD": "Manufacturing, value added (current US$)",
+      "NV.SRV.TOTL.CD": "Services, value added (current US$)"
+    },
+    "output": {
+      "NY.GDS.TOTL.CD": "Gross domestic savings (current US$)",
+      "NE.RSB.GNFS.CD": "External balance on goods and services (current US$)",
+      "NE.CON.TOTL.CD": "Final consumption expenditure (current US$)",
+      "IC.BUS.EASE.XQ": "Ease of doing business rank (1=most business-friendly regulations)",
+      "IC.BUS.EASE.DFRN.XQ.DB1719": "Global: Ease of doing business score (DB17-20 methodology)",
+      "IC.REG.STRT.BUS.RK.DB19": "Rank: Starting a business (1=most business-friendly regulations)",
+      "IC.REG.STRT.BUS.DFRN": "Starting a business - Score"
+    },
+    "output-negative": {}
+  }
+}
