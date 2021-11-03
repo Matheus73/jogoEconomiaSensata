@@ -17,7 +17,7 @@ Cadastro
 
         {% if status == '2'%}  
         <div class="alert alert-danger" role="alert">
-              Nome e email devem ser preenchidos
+              Nome, telefone e email devem ser preenchidos
         </div>
         {%endif%}
 
@@ -43,7 +43,7 @@ Cadastro
           <br>
           <h1>Cadastre-se</h1>
           <hr>
-          <form method="POST" action="{% url 'check_register'%}">{% csrf_token %}
+          <form method="POST" action="{% url 'check_register'%}"> {% csrf_token %}
               <label>Digite seu nome:</label>
               <input class="form-control" type="text" placeholder="Nome..." name = "name">
               <br>
@@ -57,7 +57,7 @@ Cadastro
               <input class="form-control" type="password" placeholder="Senha" name = "password">
               <br>
               <input class="btn btn-success btn-lg" type="submit">
-              <a href="#" class="btn btn-info btn-lg">Logar</a>
+              <a href="/auth/signin" class="btn btn-info btn-lg">Logar</a>
           </form>
       </div>
       <div class="col-md-3">
