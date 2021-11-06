@@ -1,0 +1,45 @@
+{% extends 'base_template.html'%}
+
+{% block 'titulo'%}
+{{name}}
+{% endblock%}
+
+{% block 'body' %}
+<br>
+
+<div class="container">
+
+    {% if status == '1'%}  
+    <div class="alert alert-danger" role="alert">
+        Todos os campos devem ser preenchidos!
+    </div>
+    {%endif%}
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md">
+            <br>
+            <h1>{{name}}</h1>
+            <hr>
+            <form method="POST" action="{% url 'check_form'  %}"> {% csrf_token %}
+                <input type="hidden" value="{{id}}" name="id">
+                {% for i in questions %}
+                    <label>{{i.question}}</label>
+                    <input class="form-control" type="{{i.type}}" placeholder="resposta" name = "{{i.name}}">
+                    <br>
+                {% endfor %}
+                <input class="btn btn-success btn-lg" type="submit" value="Enviar">
+            </form>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

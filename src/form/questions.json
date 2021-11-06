@@ -1,0 +1,112 @@
+{
+  "questions": [
+    {
+      "question": "Qual o produto interno bruto (PIB) do seu país?",
+      "name": "question1",
+      "type": "number",
+      "ministerio": null
+    },
+    {
+      "question": "Valor deseja investir em agricultura, silvicultura e pesca?",
+      "name": "question2",
+      "type": "number",
+      "ministerio": "agricultura"
+    },
+    {
+      "question": "Quanto deseja gastar com a educação primária?",
+      "name": "question3",
+      "type": "number",
+      "ministerio": "educacao"
+    },
+    {
+      "question": "Quanto deseja gastar com a educação secundária?",
+      "name": "question4",
+      "type": "number",
+      "ministerio": "educacao"
+    },
+    {
+      "question": "Quanto deseja gastar com a educação terciária?",
+      "name": "question5",
+      "type": "number",
+      "ministerio": "educacao"
+    },
+    {
+      "question": "Quantos milhares de toneladas de metano são emitidos por ano no seu país?",
+      "name": "question6",
+      "type": "number",
+      "ministerio": "ambiente"
+    },
+    {
+      "question": "Quantos milhares de toneladas de óxido nitroso são emitidos por ano no seu país?",
+      "name": "question7",
+      "type": "number",
+      "ministerio": "ambiente"
+    },
+    {
+      "question": "Quantos quilogramas (Kg) de CO2 (dióxido de carbono) seu país tem emitido por ano?",
+      "name": "question8",
+      "type": "number",
+      "ministerio": "ambiente"
+    },
+    {
+      "question": "Qual será o valor total gasto com saúde por ano?",
+      "name": "question9",
+      "type": "number",
+      "ministerio": "saude"
+    },
+    {
+      "question": "E qual será o valor per capita gasto?",
+      "name": "question10",
+      "type": "number",
+      "ministerio": "saude"
+    },
+    {
+      "question": "Valor interno gasto com saúde?",
+      "name": "question11",
+      "type": "number",
+      "ministerio": "saude"
+    },
+    {
+      "question": "Quanto gastará com pesquisa e desenvolvimento nesse ano?",
+      "name": "question12",
+      "type": "number",
+      "ministerio": "infraestrutura"
+    },
+    {
+      "question": "Qual o nível de desigualdade do seu país? (Coeficiente de GINI)",
+      "name": "question13",
+      "type": "number",
+      "ministerio": "desenvolvimento"
+    },
+    {
+      "question": "Qual a taxa de juros de depósito (%)?",
+      "name": "question14",
+      "type": "number",
+      "ministerio": "bancoCentral"
+    },
+    {
+      "question": "Qual o valor bruto agregado aos preços básicos (por ano)?",
+      "name": "question15",
+      "type": "number",
+      "ministerio": "economia"
+    },
+    {
+      "question": "Qual o valor adicionado a indústria (incluindo construção) ao ano?",
+      "name": "question16",
+      "type": "number",
+      "ministerio": "economia"
+    },
+    {
+      "question": "Qual o valor adicionado, por ano, a fabricação?",
+      "name": "question17",
+      "type": "number",
+      "ministerio": "economia"
+    },
+    {
+      "question": "Qual o valor adicionado, por ano, a serviços?",
+      "name": "question18",
+      "type": "number",
+      "ministerio": "economia"
+    }
+  ]
+}
