@@ -54,7 +54,7 @@ def check_signin(request):
         return redirect('/auth/signin/?status=1')
     elif len(users) > 0:
         request.session['user'] = users[0].id
-        return redirect('/home/')
+        return redirect('/')
 
 def logout(request):
     request.session.flush()
