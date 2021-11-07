@@ -1,0 +1,48 @@
+{% extends 'base_template.html'%}
+
+{% block 'titulo'%}
+Economia Sensata
+{% endblock%}
+
+{% block 'body' %}
+<br>
+
+<div class="container">
+
+    {% if status == '0'%}  <div class="alert alert-success" role="alert">
+        Resposta salva com sucesso!
+    </div>
+    
+    {%endif%}
+    {% if status == '1'%}  
+    <div class="alert alert-danger" role="alert">
+        O Formulario se encontra fechado!
+    </div>
+    {%endif%}
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md">
+            <br>
+            <h1>Economia Sensata</h1>
+            <hr>
+            <p>O projeto consiste em uma dinamica em grupos para a melhorar os conhecimentos das pessoas em economia!</p>
+
+            <br>
+            <h1>Responsavel:</h1>
+            <hr>
+            <a href="https://www.instagram.com/oliviasensata/?hl=en">
+                <img src="https://icons-for-free.com/iconfiles/png/512/boy+guy+man+icon-1320166733913205010.png" alt="Olivia" width=200px>
+            </a>
+            <h3>Olivia Carneiro</h3>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

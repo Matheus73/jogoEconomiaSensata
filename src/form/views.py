@@ -5,6 +5,8 @@ from user.models import User
 def render_form(request, id):
     if request.session.get('user'):
         form = Form.objects.get(pk = id)
+        if form.active == False:
+            return redirect('/?status=1')
         status = request.GET.get('status')
         print(form.questions['questions'], form.name)
         return render(request, 'form.html',
@@ -25,8 +27,12 @@ def check_form(request):
     user = User.objects.get(pk = user_id)
     answer = Answer(form=form, leader=user, choices={"answers": answers})
     answer.save()
-    return redirect(f'/form/?status=0')
+    return redirect(f'/?status=0')
 
 def home(request):
-    print("ENTROU +++++++++++++")
-    pass
+    if request.session.get('user'):
+        status = request.GET.get('status')
+        return render(request, 'home.html',
+                      {"status": status})
+    else:
+        return redirect('/auth/login/?status=2')
