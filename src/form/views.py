@@ -1,6 +1,18 @@
 from django.shortcuts import render, redirect
-from .models import Form, Answer
+from .models import Form, Answer, Poll
 from user.models import User
+
+def poll(request):
+    if request.session.get('user'):
+        user_id = request.session.get('user')
+        user = User.objects.get(pk = user_id)
+        polls = Poll.objects.get( poll = user.poll )
+        print(polls)
+        return redirect('/auth/login/?status=2')
+
+    else:
+        return redirect('/auth/login/?status=2')
+
 
 def render_form(request, id):
     if request.session.get('user'):

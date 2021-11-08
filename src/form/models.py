@@ -24,4 +24,13 @@ class Answer(models.Model):
     result_economia = models.IntegerField(null=True)
 
     def __str__(self) -> str:
-        return str(self.leader)
+        return str(self.leader.name)
+
+class Poll(models.Model):
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+    bloc = models.CharField(max_length=100)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
+    pros = models.IntegerField()
+    against = models.IntegerField()
+    votes = models.JSONField()
+    has_open = models.BooleanField()
