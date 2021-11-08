@@ -1,7 +1,7 @@
 {
   "questions": [
     {
-      "Agricultura e desenvolvimento rural": {
+      "name": "Agricultura e desenvolvimento rural",
         "model": "agricultura",
         "questions": [
           {
@@ -11,10 +11,9 @@
             "key": "NV.AGR.TOTL.CD"
           }
         ]
-      }
     },
     {
-      "Educação": {
+      "name":"Educação",
         "model": "educacao",
         "questions": [
           {
@@ -36,10 +35,9 @@
             "key": "SE.XPD.TERT.ZS"
           }
         ]
-      }
     },
     {
-      "Mudanças climáticas e Meio Ambiente": {
+      "name":"Mudanças climáticas e Meio Ambiente",
         "model": "ambiente",
         "questions": [
           {
@@ -61,10 +59,9 @@
             "ministerio": "EN.ATM.CO2E.GF.ZS"
           }
         ]
-      }
     },
     {
-      "Saúde": {
+      "name":"Saúde",
         "model": "saude",
         "questions": [
           {
@@ -74,10 +71,9 @@
             "key": "SH.XPD.CHEX.GD.ZS"
           }
         ]
-      }
     },
     {
-      "Infraestreutura, Ciência e Tecnologia": {
+      "name":"Infraestreutura, Ciência e Tecnologia",
         "model": "ciencia",
         "questions": [
           {
@@ -87,10 +83,9 @@
             "key": "GB.XPD.RSDV.GD.ZS"
           }
         ]
-      }
     },
     {
-      "Desenvolvimento": {
+      "name":"Desenvolvimento",
         "model": "desenvolvimento",
         "questions": [
           {
@@ -100,10 +95,9 @@
             "key": "SI.POV.GINI"
           }
         ]
-      }
     },
     {
-      "Banco Central": {
+      "name":"Banco Central",
         "model": "banco",
         "questions": [
           {
@@ -113,10 +107,9 @@
             "key": "FR.INR.DPST"
           }
         ]
-      }
     },
     {
-      "Economia": {
+      "name":"Economia",
         "model": "economia",
         "questions": [
           {
@@ -139,6 +132,5 @@
           }
         ]
       }
-    }
   ]
 }

@@ -29,9 +29,12 @@
             <form method="POST" action="{% url 'check_form'  %}"> {% csrf_token %}
                 <input type="hidden" value="{{id}}" name="id">
                 {% for i in questions %}
-                    <label>{{i.question}}</label>
-                    <input class="form-control" type="{{i.type}}" placeholder="resposta" name = "{{i.name}}">
+                    <h3>{{i.name}}</h3>
+                    {% for j in i.questions %}
+                    <label>{{j.question}}</label>
+                    <input class="form-control" type="{{i.type}}" placeholder="0% a 100%" name = "{{i.name}}">
                     <br>
+                {% endfor %}
                 {% endfor %}
                 <input class="btn btn-success btn-lg" type="submit" value="Enviar">
                 <br/>
