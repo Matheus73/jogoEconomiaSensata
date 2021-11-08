@@ -6,12 +6,12 @@ def poll(request):
     if request.session.get('user'):
         user_id = request.session.get('user')
         user = User.objects.get(pk = user_id)
-        polls = Poll.objects.get( poll = user.poll )
+        polls = Poll.objects.filter( bloc = user.bloc ).filter(has_open = True)
         print(polls)
-        return redirect('/auth/login/?status=2')
+        return redirect('/auth/signin/?status=2')
 
     else:
-        return redirect('/auth/login/?status=2')
+        return redirect('/auth/signin/?status=2')
 
 
 def render_form(request, id):
@@ -24,7 +24,7 @@ def render_form(request, id):
         return render(request, 'form.html',
                       {"questions": form.questions['questions'], "name": form.name, "id": id, "status": status})
     else:
-        return redirect('/auth/login/?status=2')
+        return redirect('/auth/signin/?status=2')
 
 def check_form(request):
     answers = [{"question":f"question{i}", "answer" :request.POST.get(f"question{i}")} for i in range(1,19) ]
@@ -47,4 +47,4 @@ def home(request):
         return render(request, 'home.html',
                       {"status": status})
     else:
-        return redirect('/auth/login/?status=2')
+        return redirect('/auth/signin/?status=2')
