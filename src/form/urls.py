@@ -6,4 +6,5 @@ urlpatterns = [
     path('form/<int:id>/', views.render_form, name='form'),
     path('check/', views.check_form, name='check_form'),
     path('poll/', views.poll, name='poll'),
+    path('check_poll/', views.check_poll, name='check_poll'),
 ]

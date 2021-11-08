@@ -6,13 +6,38 @@ def poll(request):
     if request.session.get('user'):
         user_id = request.session.get('user')
         user = User.objects.get(pk = user_id)
-        polls = Poll.objects.filter( bloc = user.bloc ).filter(has_open = True)
-        print(polls)
-        return redirect('/auth/signin/?status=2')
+        polls = Poll.objects.filter( bloc = user.bloc )
+        final_polls = []
+        for i in polls:
+            creator = User.objects.get( pk = i.created_by.id )
+            is_my = creator.id == user_id
+            if not i.has_open or is_my or user_id in i.votes["votes"]:
+                if i.pros > i.against:
+                    result = True
+                else:
+                    result = False
+                final_polls.append({"country": creator.country, "active": False, "poll_id": i.id, "result": result })
+            else:
+                final_polls.append({"country": creator.country, "active": i.has_open, "poll_id": i.id })
+        return render(request, 'polls.html', {"polls": final_polls})
 
     else:
         return redirect('/auth/signin/?status=2')
 
+def check_poll(request):
+    choice = request.POST.get("choice")
+    poll_id = request.POST.get("poll_id")
+    print(choice, poll_id)
+    poll = Poll.objects.get( pk = poll_id )
+    if choice == "1":
+        poll.pros += 1
+    else:
+        poll.against += 1
+    votes = poll.votes['votes']
+    votes.append(request.session.get("user"))
+    poll.votes = {"votes": votes }
+    poll.save()
+    return redirect('/?status=2')
 
 def render_form(request, id):
     if request.session.get('user'):
