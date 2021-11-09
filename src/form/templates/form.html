@@ -32,7 +32,7 @@
                     <h3>{{i.name}}</h3>
                     {% for j in i.questions %}
                     <label>{{j.question}}</label>
-                    <input class="form-control" type="{{i.type}}" placeholder="0% a 100%" name = "{{i.name}}">
+                    <input class="form-control" type="{{j.type}}" placeholder="0% a 100%" name = "{{j.name}}">
                     <br>
                 {% endfor %}
                 {% endfor %}
