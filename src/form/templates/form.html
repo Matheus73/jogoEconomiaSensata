@@ -14,6 +14,16 @@
         Todos os campos devem ser preenchidos!
     </div>
     {%endif%}
+    {% if status == '2'%}  
+    <div class="alert alert-danger" role="alert">
+        Nenhum campo pode exceder 40% do investimento!
+    </div>
+    {%endif%}
+    {% if status == '3'%}  
+    <div class="alert alert-danger" role="alert">
+        Para investir mais de 20% em algum campo seria necessário aprovação em uma votação!
+    </div>
+    {%endif%}
 </div>
 
 <div class="container">

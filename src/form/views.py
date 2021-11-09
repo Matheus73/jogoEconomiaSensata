@@ -58,7 +58,7 @@ def poll(request):
                     result = False
                 final_polls.append({"form":i.form.name,"country": creator.country, "active": False, "poll_id": i.id, "result": result })
             else:
-                final_polls.append({"country": creator.country, "active": i.has_open, "poll_id": i.id })
+                final_polls.append({"form":i.form.name,"country": creator.country, "active": i.has_open, "poll_id": i.id })
         return render(request, 'polls.html', {"polls": final_polls, "forms": [{"value": i.name.replace(" ","_"),"name": i.name} for i in forms]})
 
     else:
@@ -145,16 +145,26 @@ def check_form(request):
         results[i] = predict_min(tmp,i)
 
 
-    form_id = request.POST.get('id')
-    for i in answers:
-        if i["answer"] == '':
-            return redirect(f'/form/form/{form_id}/?status=1')
-        elif int(i["answer"]) > 40:
-            return redirect(f'/form/form/{form_id}/?status=2')
-
     user_id = request.session.get('user')
+    form_id = request.POST.get('id')
     form = Form.objects.get(pk = form_id)
     user = User.objects.get(pk = user_id)
+
+    poll = Poll.objects.filter( created_by=user, form=form )
+    if len(poll) > 0:
+        poll = poll[0]
+        aproved = poll.pros > poll.against
+    else:
+        aproved = False
+
+    for i in answers:
+        if i["answer"] == '':
+            return redirect(f'/form/{form_id}/?status=1')
+        elif int(i["answer"]) > 40:
+            return redirect(f'/form/{form_id}/?status=2')
+        elif int(i["answer"]) > 20 and not aproved:
+            return redirect(f'/form/{form_id}/?status=3')
+
     answer = Answer(form=form, leader=user, choices={"answers": answers}, result_agricultura=results['agricultura'],
                     result_educacao=results['educacao'], result_ambiente=results['ambiente'], result_saude=results["saude"],
                     result_infraestrutura=results['ciencia'], result_desenvolvimento=results['desenvolvimento'],
