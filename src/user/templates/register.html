@@ -39,30 +39,32 @@ Cadastro
       <div class="col-md-3">
 
       </div>
-      <div class="col-md">
+      <div class="col-md-6">
           <br>
           <h1>Cadastre-se</h1>
           <hr>
           <form method="POST" action="{% url 'check_register'%}"> {% csrf_token %}
-              <label>Digite seu nome:</label>
-              <input class="form-control" type="text" placeholder="Nome..." name = "name">
-              <br>
-              <label>Digite seu telefone:</label>
-              <input class="form-control" type="text" placeholder="Telefone..." name = "telephone">
-              <br>
-              <label>Digite seu Email:</label>
+              {% comment %} <label lass="form-label" >Digite seu nome:</label> {% endcomment %}
+            <div class="form-outline mb-4">
+              <input class="form-control" type="text" placeholder="Nome" name = "name">
+             </div>
+            <div class="form-outline mb-4">
+              <input class="form-control" type="text" placeholder="Telefone" name = "telephone">
+            </div>
+            <div class="form-outline mb-4">
               <input class="form-control" type="text" placeholder="E-mail" name = "email">
-              <br>
-              <label>Digite sua senha:</label>
+            </div>
+            <div class="form-outline mb-4">
               <input class="form-control" type="password" placeholder="Senha" name = "password">
-              <br>
-              <input class="btn btn-success btn-lg" type="submit" value="Enviar">
-              <a href="/auth/signin" class="btn btn-info btn-lg">Logar</a>
+            </div>
+              {% comment %} <input class="btn btn-success btn-lg" type="submit" value="Enviar">
+              <a href="/auth/signin" class="btn btn-info btn-lg">Logar</a> {% endcomment %}
+                 <div class="pt-1 mb-4">
+              <button class="btn btn-dark btn-lg btn-block" type="submit">Cadastrar</button>
+              </div>
+            </div>
           </form>
-      </div>
-      <div class="col-md-3">
-
-      </div>
+      </div>      
   </div>
 
 </div>

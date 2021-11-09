@@ -1,7 +1,7 @@
 {% extends 'base_template.html'%}
 
 {% block 'titulo'%}
-Economia Sensata
+Desafio Economia Sensata
 {% endblock%}
 
 {% block 'body' %}
@@ -22,47 +22,51 @@ Economia Sensata
         <div class="col-md-3">
 
         </div>
-        <div class="col-md">
+        <div class="col-md-6">
             <br>
             <h1>Votações</h1>
             <hr>
+            <div class="row">
             {% for i in polls %}
-            <div class="card mb-2" style="width: 48rem;">
-                <div class="card-body row">
-                    <h4>{{i.form}}</h4>
-                    <label>O país <strong>{{i.country}}</strong> deseja investir mais de 20% de seu orçamento em um ministério, o que você acha disso?</label>
-                    <br>
-                    {% if i.active %}
-                    <form class="m-2" method="POST" action="{% url 'check_poll'  %}"> {% csrf_token %}
-                        <input type="hidden" value="{{i.poll_id}}" name="poll_id">
-                        <input type="hidden" value="1" name="choice">
-                        <input class="btn btn-success btn-lg" type="submit" value="Aceitar" name="aceitar">
-                    </form>
-                    <form class="m-2" method="POST" action="{% url 'check_poll'  %}"> {% csrf_token %}
-                        <input type="hidden" value="{{i.poll_id}}" name="poll_id">
-                        <input type="hidden" value="0" name="choice">
-                        <input class="btn btn-danger btn-lg" type="submit" value="Negar" name="negar">
-                    </form>
-                    {% else %}
-                        <div class="btn btn-warning m-2">Fechado</div>
-                        {% if i.result is True %}
-                        <div class="btn btn-success m-2">Aprovado!</div>
+            <div class="col-md-12">
+                <div class="card mb-2 text-center">
+                    <h5 class="card-header"><strong>{{i.country}} - {{i.form}}</strong></h5>
+                    <div class="card-body row">
+                        <label class="mb-3 mr-5">Deseja investir mais de 20% de seu orçamento em um ministério, o que você acha disso?</label>
+                        <br>
+                        {% if i.owner %}
+                        <form class="m-2" method="POST" action="{% url 'check_poll'  %}"> {% csrf_token %}
+                            <input type="hidden" value="{{i.poll_id}}" name="poll_id">
+                            <input type="hidden" value="1" name="choice">
+                            <input class="btn btn-success btn-sm" type="submit" value="Aceitar" name="aceitar">
+                        </form>
+                        <form class="m-2" method="POST" action="{% url 'check_poll'  %}"> {% csrf_token %}
+                            <input type="hidden" value="{{i.poll_id}}" name="poll_id">
+                            <input type="hidden" value="0" name="choice">
+                            <input class="btn btn-danger btn-sm" type="submit" value="Negar" name="negar">
+                        </form>
                         {% else %}
-                        <div class="btn btn-danger m-2">Negado!</div>
+                            <div class="btn btn-warning btn-sm m-2">Fechado</div>
+                            {% if i.result is True %}
+                            <div class="btn btn-success btn-sm m-2">Aprovado!</div>
+                            {% elif i.result is False %}
+                            <div class="btn btn-danger btn-sm m-2">Negado!</div>
+                            {%else%}
+                            <div class="btn btn-info btn-sm m-2">Em Votação!</div>
+                            {% endif %}
                         {% endif %}
-
-                    {% endif %}
-                    <br/>
+                        <br/>
+                    </div>
                 </div>
             </div>
-                    {% endfor %}
-                    
+            {% endfor %}
+            </div>  
             <br>
                     
             <h1>Criar votacao</h1>
             <hr>
             <form action="{% url 'create_poll' %}"> {% csrf_token %}
-                <label for="fname">Escolha a matéria que deseja buscar:</label><br><br>
+                <label for="fname">Escolha o ano que deseja criar a votação para teto de gastos:</label><br><br>
                 <select name="form_name" class="form-control" aria-label="Default select example">
                     {% for i in forms %}
                     <option value={{i.value}}>{{i.name}}</option>

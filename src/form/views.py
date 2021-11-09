@@ -23,65 +23,73 @@ from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import AdaBoostRegressor
 
+
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+
 def create_poll(request):
     user_id = request.session.get('user')
-    user = User.objects.get(pk = user_id)
+    user = User.objects.get(pk=user_id)
     form_name = request.POST.get("form_name")
-    form_name = request.GET['form_name'].replace("_"," ")
-    form = Form.objects.filter( name = form_name )[0]
+    form_name = request.GET['form_name'].replace("_", " ")
+    form = Form.objects.filter(name=form_name)[0]
 
-    exists_polls = len(Poll.objects.filter( created_by=user, form=form )) > 0
+    exists_polls = len(Poll.objects.filter(created_by=user, form=form)) > 0
     if exists_polls:
         return redirect('/?status=4')
     else:
-        new_poll = Poll(created_by=user, bloc=user.bloc, form=form, has_open=True)
+        new_poll = Poll(created_by=user, bloc=user.bloc,
+                        form=form, has_open=True)
         new_poll.save()
         return redirect('/?status=3')
+
 
 def poll(request):
     if request.session.get('user'):
         user_id = request.session.get('user')
-        user = User.objects.get(pk = user_id)
-        polls = Poll.objects.filter( bloc = user.bloc )
-        forms = Form.objects.filter( active = True )
+        user = User.objects.get(pk=user_id)
+        polls = Poll.objects.filter(bloc=user.bloc)
+        forms = Form.objects.filter(active=True)
         final_polls = []
         for i in polls:
-            creator = User.objects.get( pk = i.created_by.id )
+            creator = User.objects.get(pk=i.created_by.id)
             is_my = creator.id == user_id
             if not i.has_open or is_my or user_id in i.votes["votes"]:
                 if i.pros > i.against:
                     result = True
                 else:
                     result = False
-                final_polls.append({"form":i.form.name,"country": creator.country, "active": False, "poll_id": i.id, "result": result })
+                final_polls.append({"form": i.form.name, "country": creator.country,
+                                   "active": False, "owner": is_my, "poll_id": i.id, "result": result})
             else:
-                final_polls.append({"form":i.form.name,"country": creator.country, "active": i.has_open, "poll_id": i.id })
-        return render(request, 'polls.html', {"polls": final_polls, "forms": [{"value": i.name.replace(" ","_"),"name": i.name} for i in forms]})
+                final_polls.append(
+                    {"form": i.form.name, "country": creator.country, "owner": is_my, "active": i.has_open, "poll_id": i.id})
+        return render(request, 'polls.html', {"polls": final_polls, "forms": [{"value": i.name.replace(" ", "_"), "name": i.name} for i in forms]})
 
     else:
         return redirect('/auth/signin/?status=2')
+
 
 def check_poll(request):
     choice = request.POST.get("choice")
     poll_id = request.POST.get("poll_id")
     print(choice, poll_id)
-    poll = Poll.objects.get( pk = poll_id )
+    poll = Poll.objects.get(pk=poll_id)
     if choice == "1":
         poll.pros += 1
     else:
         poll.against += 1
     votes = poll.votes['votes']
     votes.append(request.session.get("user"))
-    poll.votes = {"votes": votes }
+    poll.votes = {"votes": votes}
     poll.save()
     return redirect('/?status=2')
 
+
 def render_form(request, id):
     if request.session.get('user'):
-        form = Form.objects.get(pk = id)
+        form = Form.objects.get(pk=id)
         if form.active == False:
             return redirect('/?status=1')
         status = request.GET.get('status')
@@ -91,66 +99,69 @@ def render_form(request, id):
     else:
         return redirect('/auth/signin/?status=2')
 
+
 def check_form(request):
 
-    json = { "questions": [
+    json = {"questions": [
         {
             "model": "agricultura",
             "questions": ["question1"]
         },
         {
             "model": "educacao",
-            "questions": ["question2", "question3", "question4",]
+            "questions": ["question2", "question3", "question4", ]
         },
         {
             "model": "ambiente",
-            "questions": ["question5", "question6","question7",]
+            "questions": ["question5", "question6", "question7", ]
         },
         {
             "model": "saude",
-            "questions": ["question8",]
+            "questions": ["question8", ]
         },
         {
             "model": "ciencia",
-            "questions": ["question9",]
+            "questions": ["question9", ]
         },
         {
             "model": "desenvolvimento",
-            "questions": ["question10",]
+            "questions": ["question10", ]
         },
         {
             "model": "banco",
-            "questions": ["question11",]
+            "questions": ["question11", ]
         },
         {
             "model": "economia",
-            "questions": ["question12","question13","question14",]
+            "questions": ["question12", "question13", "question14", ]
         }
     ]
-}
-    answers = [{"question":f"question{i}", "answer" : request.POST.get(f"question{i}")} for i in range(1,15) ]
+    }
+    answers = [{"question": f"question{i}", "answer": request.POST.get(
+        f"question{i}")} for i in range(1, 15)]
     final_json = {}
     for i in json['questions']:
-        final_json[i['model']] = [ int(j["answer"]) for j in answers if j['question'] in i["questions"] ]
+        final_json[i['model']] = [
+            int(j["answer"]) for j in answers if j['question'] in i["questions"]]
 
     final_json['agricultura'] = [final_json['agricultura'][0]/100 * 10**12]
     final_json['economia'] = [i/100 * 10**12 for i in final_json['economia']]
-    final_json['desenvolvimento'] = [100 - final_json['desenvolvimento'][0]/0.4 * 100]
+    final_json['desenvolvimento'] = [
+        100 - final_json['desenvolvimento'][0]/0.4 * 100]
     final_json['ambiente'] = [0.5 * i for i in final_json['ambiente']]
 
     results = {}
     for i in final_json:
         tmp = final_json[i]
         tmp.append(0)
-        results[i] = predict_min(tmp,i)
-
+        results[i] = predict_min(tmp, i)
 
     user_id = request.session.get('user')
     form_id = request.POST.get('id')
-    form = Form.objects.get(pk = form_id)
-    user = User.objects.get(pk = user_id)
+    form = Form.objects.get(pk=form_id)
+    user = User.objects.get(pk=user_id)
 
-    poll = Poll.objects.filter( created_by=user, form=form )
+    poll = Poll.objects.filter(created_by=user, form=form)
     if len(poll) > 0:
         poll = poll[0]
         aproved = poll.pros > poll.against
@@ -172,6 +183,7 @@ def check_form(request):
     answer.save()
     return redirect(f'/?status=0')
 
+
 def home(request):
     if request.session.get('user'):
         status = request.GET.get('status')
@@ -180,6 +192,7 @@ def home(request):
     else:
         return redirect('/auth/signin/?status=2')
 
+
 def about(request):
     if request.session.get('user'):
         status = request.GET.get('status')
@@ -187,6 +200,7 @@ def about(request):
                       {"status": status})
     else:
         return redirect('/auth/signin/?status=2')
+
 
 def predict_min(data, name):
     path = os.path.dirname("../")
@@ -198,6 +212,5 @@ def predict_min(data, name):
     input = [input[0][:-1]]
 
     result = model.predict(input)
-
 
     return result[0]

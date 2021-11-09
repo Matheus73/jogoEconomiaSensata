@@ -1,7 +1,7 @@
 {% extends 'base_template.html'%}
 
 {% block 'titulo'%}
-Logar
+Login
 
 {% endblock%}
 
@@ -23,24 +23,38 @@ Logar
     <br/>
 
   <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
 
       </div>
       <div class="col-md">
           <br>
           <h1>Login</h1>
           <hr>
-          <form method="POST" action="{% url 'check_signin'%}"> {% csrf_token %}
-              <label>Digite seu Email:</label>
-              <input class="form-control" type="text" placeholder="E-mail" name = "email">
-              <br>
-              <label>Digite seu senha:</label>
-              <input class="form-control" type="password" placeholder="Senha" name = "password">
-              <br>
-              <input class="btn btn-success btn-lg" type="submit" value="Enviar">
-              <a href="/auth/register/" class="btn btn-info btn-lg">Cadastre-se</a>
+          
+
+          <form method="POST" action="{% url 'check_signin' %}" style="width: 23rem;"> {% csrf_token %}
+
+
+            <div class="form-outline mb-4">
+              <input type="email" id="form2Example18"   name = "email" placeholder="E-mail"  class="form-control form-control-lg" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password"  name = "password" id="form2Example28"  placeholder="Senha" class="form-control form-control-lg" />
+            </div>
+
+            <div class="pt-1 mb-4">
+              <button class="btn btn-dark btn-lg btn-block" type="submit">Entrar</button>
+            </div>
+            <hr>
+            <div class="pt-1 mb-4 ">
+              <a href="/auth/register/" class="btn btn-warning btn-lg btn-block">Cadastrar</a>
+            </div>
+            {% comment %} <p>Não tem uma conta? <a href="/auth/register/" class="link-info">Cadastre-se</a></p> {% endcomment %}
+
           </form>
       </div>
+      
       <div class="col-md-3">
 
       </div>
