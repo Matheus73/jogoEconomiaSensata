@@ -1,9 +1,10 @@
 import dash
-import dash_core_components as dcc, Dropdown
+import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
 from dash_html_components import Div, H1, H2, H3, H4
+from dash_core_components import Dropdown
 import pandas as pd
 import numpy as np
 from dash.dependencies import Input, Output
