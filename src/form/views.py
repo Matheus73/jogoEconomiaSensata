@@ -26,11 +26,27 @@ from sklearn.ensemble import AdaBoostRegressor
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+def create_poll(request):
+    user_id = request.session.get('user')
+    user = User.objects.get(pk = user_id)
+    form_name = request.POST.get("form_name")
+    form_name = request.GET['form_name'].replace("_"," ")
+    form = Form.objects.filter( name = form_name )[0]
+
+    exists_polls = len(Poll.objects.filter( created_by=user, form=form )) > 0
+    if exists_polls:
+        return redirect('/?status=4')
+    else:
+        new_poll = Poll(created_by=user, bloc=user.bloc, form=form, has_open=True)
+        new_poll.save()
+        return redirect('/?status=3')
+
 def poll(request):
     if request.session.get('user'):
         user_id = request.session.get('user')
         user = User.objects.get(pk = user_id)
         polls = Poll.objects.filter( bloc = user.bloc )
+        forms = Form.objects.filter( active = True )
         final_polls = []
         for i in polls:
             creator = User.objects.get( pk = i.created_by.id )
@@ -40,10 +56,10 @@ def poll(request):
                     result = True
                 else:
                     result = False
-                final_polls.append({"country": creator.country, "active": False, "poll_id": i.id, "result": result })
+                final_polls.append({"form":i.form.name,"country": creator.country, "active": False, "poll_id": i.id, "result": result })
             else:
                 final_polls.append({"country": creator.country, "active": i.has_open, "poll_id": i.id })
-        return render(request, 'polls.html', {"polls": final_polls})
+        return render(request, 'polls.html', {"polls": final_polls, "forms": [{"value": i.name.replace(" ","_"),"name": i.name} for i in forms]})
 
     else:
         return redirect('/auth/signin/?status=2')
@@ -116,7 +132,6 @@ def check_form(request):
     final_json = {}
     for i in json['questions']:
         final_json[i['model']] = [ int(j["answer"]) for j in answers if j['question'] in i["questions"] ]
-    # print(final_json)
 
     final_json['agricultura'] = [final_json['agricultura'][0]/100 * 10**12]
     final_json['economia'] = [i/100 * 10**12 for i in final_json['economia']]
@@ -128,13 +143,14 @@ def check_form(request):
         tmp = final_json[i]
         tmp.append(0)
         results[i] = predict_min(tmp,i)
-    print(results)
 
 
     form_id = request.POST.get('id')
     for i in answers:
         if i["answer"] == '':
             return redirect(f'/form/form/{form_id}/?status=1')
+        elif int(i["answer"]) > 40:
+            return redirect(f'/form/form/{form_id}/?status=2')
 
     user_id = request.session.get('user')
     form = Form.objects.get(pk = form_id)
@@ -150,6 +166,14 @@ def home(request):
     if request.session.get('user'):
         status = request.GET.get('status')
         return render(request, 'home.html',
+                      {"status": status})
+    else:
+        return redirect('/auth/signin/?status=2')
+
+def about(request):
+    if request.session.get('user'):
+        status = request.GET.get('status')
+        return render(request, 'about.html',
                       {"status": status})
     else:
         return redirect('/auth/signin/?status=2')

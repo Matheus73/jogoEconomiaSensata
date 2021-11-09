@@ -24,6 +24,16 @@ Economia Sensata
         Voto computado!
     </div>
     {%endif%}
+    {% if status == '3'%}  
+    <div class="alert alert-success" role="alert">
+        Votacao criada!
+    </div>
+    {%endif%}
+    {% if status == '4'%}  
+    <div class="alert alert-danger" role="alert">
+        Voce ja criou votacao para esse formulario!
+    </div>
+    {%endif%}
 </div>
 
 <div class="container">
@@ -36,18 +46,42 @@ Economia Sensata
             <br>
             <h1>Economia Sensata</h1>
             <hr>
-            <p>O projeto consiste em uma dinamica em grupos para a melhorar os conhecimentos das pessoas em economia!</p>
+            <h3>Regras do desafio</h3>
+            <p>O jogo é composto por diversos blocos com 3 países em cada bloco</p>
+            <p>O mandato é composto por 4 anos</p>
+            <p>O país é composto 8 ministério sendo eles:</p>
+            
+            <ul>
+                <li>Ministério da agricultura</li>
+                <li>Ministério da educação</li>
+                <li>Ministério do meio ambiente</li>
+                <li>Ministério da saúde</li>
+                <li>Ministério da infraestrutura</li>
+                <li>Ministério do desenvolvimento</li>
+                <li>Ministério da economia</li>
+                <li>Banco central</li>
+            </ul>
 
-            <br>
-            <h1>Responsavel:</h1>
-            <hr>
-            <a href="https://www.instagram.com/oliviasensata/?hl=en">
-                <img src="https://icons-for-free.com/iconfiles/png/512/boy+guy+man+icon-1320166733913205010.png" alt="Olivia" width=200px>
-            </a>
-            <h3>Olivia Carneiro</h3>
-
+            <h5>Objetivo</h5>
+                <p>Gerenciar o seu país para ter o melhor desempenho ao final do mandato</p>
+            <h5>Começo do jogo</h5>
+                <p>Começo do jogo: Cada país inicia o ano com o Produto interno bruto (PIB) de R$1.000.000.000.000,00 (um trilhão de reais), nos anos seguintes o PIB é acrescentado em R$1.000.000.000.000,00 (um trilhão de reais)</p>
+            <h5>Investimento</h5>
+                <ul>
+                    <li>Os investimentos são realizados de acordo com a porcentagem do PIB</li>
+                    <ul>
+                        <li>Exemplo: investimento em saúde: 10% (10% do PIB)</li>
+                    </ul>
+                    <li>O jogador pode investir até 40% do PIB em cada ministério</li>
+                </ul>
+            <h5>Pontuação</h5>
+                <p>O sistema calcula a pontuação de cada ministério de acordo com as decisões tomadas e gera a pontuação geral do país conforme o resultado de cada ministério</p>
+            <h5>Bônus</h5>
+                <p>Cada país ganha uma porcentagem de acordo com o resultado dos países do seu bloco</p>
+            <h5>Votação</h5>
+                <p>Quando um país desejar gastar mais de 20% do PIB em um ministério é necessário aprovação dos outros países do bloco para efetuar o investimento, caso não aceite que a votação seja iniciada o país estará aplicando um GOLPE e sofrerá punição por isso (perderá 50% do PIB atual ).</p>
+            <h5></h5>
         </div>
-    </div>
 
 </div>
 {% endblock %}

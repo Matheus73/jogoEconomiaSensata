@@ -29,6 +29,7 @@ Economia Sensata
             {% for i in polls %}
             <div class="card mb-2" style="width: 48rem;">
                 <div class="card-body row">
+                    <h4>{{i.form}}</h4>
                     <label>O país <strong>{{i.country}}</strong> deseja investir mais de 20% de seu orçamento em um ministério, o que você acha disso?</label>
                     <br>
                     {% if i.active %}
@@ -55,8 +56,23 @@ Economia Sensata
                 </div>
             </div>
                     {% endfor %}
-
-
+                    
+            <br>
+                    
+            <h1>Criar votacao</h1>
+            <hr>
+            <form action="{% url 'create_poll' %}"> {% csrf_token %}
+                <label for="fname">Escolha a matéria que deseja buscar:</label><br><br>
+                <select name="form_name" class="form-control" aria-label="Default select example">
+                    {% for i in forms %}
+                    <option value={{i.value}}>{{i.name}}</option>
+                   {% endfor %}
+                </select>
+                <button class="btn btn-dark mt-3" style="width:100%">Criar</button>
+            </form>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
 
