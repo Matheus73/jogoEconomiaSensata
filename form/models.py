@@ -38,3 +38,6 @@ class Poll(models.Model):
     votes = models.JSONField(default=dict(votes=[]))
     has_open = models.BooleanField()
     coup = models.BooleanField(default=False, null=True)
+
+    def __str__(self) -> str:
+        return str(self.created_by.name)
