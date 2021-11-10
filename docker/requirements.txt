@@ -38,3 +38,4 @@ tenacity==8.0.1
 threadpoolctl==3.0.0
 Werkzeug==2.0.2
 xgboost==1.5.0
+fontawesome-free-5.15.4
