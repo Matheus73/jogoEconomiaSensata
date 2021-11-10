@@ -4,13 +4,14 @@ import dash_html_components as html
 import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
 from dash_html_components import Div, H1, H2, H3, H4
-from dash_core_components import Dropdown
+from dash_core_components import Dropdown, Checklist
 import pandas as pd
 import numpy as np
 from dash.dependencies import Input, Output
 
 from .models import Answer
 from user.models import User
+from form.models import Form
 
 from random import random  # APAGAR no oficial
 
@@ -64,7 +65,11 @@ def graph(x, y1, y2, color1, color2):
     return fig
 
 
-paises = sorted([i.country for i in User.objects.all()])
+paises = sorted([i.country for i in User.objects.all(
+) if i.country is not None])
+
+
+formularios = sorted([i.name for i in Form.objects.all()])
 
 ministerios = ['paises', 'Agricultura', 'Educação', 'Meio Ambiente',
                'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central', 'Economia']
@@ -77,7 +82,6 @@ for i in Answer.objects.all():
                    i.result_bancoCentral, i.result_economia])
 
 df = pd.DataFrame(tuples, columns=ministerios)
-print(df.head())
 
 somas = {}
 for i in df["paises"]:
@@ -86,7 +90,6 @@ for i in df["paises"]:
         soma += j
     somas[i] = soma
 
-print(somas)
 # Resultados
 
 total = [random() * 100, random() * 100, random() * 100, random() * 100, random() * 100, random() * 100, random() *
@@ -99,7 +102,6 @@ for i in users:
         blocos[i.bloc].append(i.country)
     else:
         blocos[i.bloc] = [i.country]
-print(blocos)
 for i in blocos:
     soma = 0
     for j in blocos[i]:
@@ -110,13 +112,11 @@ for i in blocos:
             soma += 0
     blocos[i] = {"paises": blocos[i],
                  "soma": soma, "media": soma/len(blocos[i])}
-print(blocos)
 
 somas_final = {}
 for i in somas:
     user = User.objects.filter(country=i)[0]
     somas_final[i] = somas[i] + (0.1 * blocos[user.bloc]['media'])
-print(somas_final)
 
 fig_total = graph(list(somas.keys()), list(somas.values()),
                   list(somas_final.values()), '#e99e2a', '#bdc3c7')
@@ -134,6 +134,14 @@ app.layout = html.Div([
                         options=[
                             {'label': x, 'value': x} for x in paises
                         ]
+                    ),
+                    Checklist(
+                        id='my_checklist',
+                        value=['2023'],
+                        options=[
+                            {'label': x, 'value': x} for x in formularios
+                        ],
+                        labelStyle={'display': 'inline-block'}
                     ),
                     #H4('Ministério da Agricultura e Desenvolvimento rural'),
                     dcc.Graph(
@@ -163,29 +171,34 @@ app.layout = html.Div([
 
 @app.callback(
     Output('Gráfico ministério da agricultura e desenvolvimento', 'figure'),
-    Input('meu_dropdown', 'value'),
+    [Input('meu_dropdown', 'value'), Input('my_checklist', 'value')],
 )
-def my_callback(nome_pais):
-    if nome_pais == None:
+def my_callback(nome_pais, formulario):
+    if not nome_pais:
         nome_pais = ''
 
-    ministerios = ['paises', 'Agricultura', 'Educação', 'Meio Ambiente',
-                   'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central', 'Economia']
+    ministerios = ['paises', 'Ano', 'Agricultura', 'Educação', 'Meio Ambiente',
+                   'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central',
+                   'Economia']
 
     tuples = []
     for i in Answer.objects.all():
         leader = i.leader
-        tuples.append([leader.country, i.result_agricultura, i.result_educacao, i.result_ambiente,
-                       i.result_saude, i.result_infraestrutura, i.result_desenvolvimento,
+        form = i.form
+        tuples.append([leader.country, form.name, i.result_agricultura,
+                       i.result_educacao, i.result_ambiente,
+                       i.result_saude, i.result_infraestrutura,
+                       i.result_desenvolvimento,
                        i.result_bancoCentral, i.result_economia])
 
     df = pd.DataFrame(tuples, columns=ministerios)
-    # print(df.head())
     # df['paises'] = paises * 10
 
     data = go.Scatter(
-        x=df[df['paises'] == nome_pais].sum().index[1:],
-        y=df[df['paises'] == nome_pais].sum()[1:],
+        x=df[(df['Ano'].isin(list(formulario))) & (
+            df['paises'] == nome_pais)].sum().index[2:],
+        y=df[(df['Ano'].isin(list(formulario))) &
+             (df['paises'] == nome_pais)].sum()[2:],
         marker={'color': '#b86224'},
         #text = y,
         textfont={'size': 14},

@@ -10,38 +10,41 @@ Desafio Economia Sensata
 <div class="container">
 
     {% if status == '0'%}  <div class="alert alert-success" role="alert">
-        Resposta salva com sucesso!
+       <p align="center" class="my-0 py-0" >  Resposta salva com sucesso!</p>
     </div>
     
     {%endif%}
     {% if status == '1'%}  
     <div class="alert alert-danger" role="alert">
-        O Formulario se encontra fechado!
+        <p align="center" class="my-0 py-0" > O Formulário se encontra fechado!</p>
     </div>
     {%endif%}
     {% if status == '2'%}  
     <div class="alert alert-success" role="alert">
-        Voto computado!
+      <p align="center" class="my-0 py-0" >   Voto computado!</p>
     </div>
     {%endif%}
     {% if status == '3'%}  
     <div class="alert alert-success" role="alert">
-        Votacao criada!
+        <p align="center" class="my-0 py-0" > Votação criada!</p>
     </div>
     {%endif%}
     {% if status == '4'%}  
     <div class="alert alert-danger" role="alert">
-        Voce ja criou votacao para esse formulario!
+        <p align="center" class="my-0 py-0" > Você já criou votação para esse ano!</p>
+    </div>
+    {%endif%}
+    {% if status == '5'%}  
+    <div class="alert alert-danger" role="alert">
+        <p align="center" class="my-0 py-0" > Golpe Identificado!! Seu orçamento foi reduzido em 50% ! </p>
     </div>
     {%endif%}
 </div>
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-md-3">
-
-        </div>
+    <div class="row justify-content-center">
+        
         <div class="col-md-6">
             <br>
             <h1>Desafio Economia Sensata</h1>

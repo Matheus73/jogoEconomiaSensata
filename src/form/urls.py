@@ -10,4 +10,5 @@ urlpatterns = [
     path('create_poll/', views.create_poll, name='create_poll'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('check_poll/', views.check_poll, name='check_poll'),
+    path('coup', views.coup, name='coup'),
 ]

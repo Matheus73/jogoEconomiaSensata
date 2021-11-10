@@ -1,7 +1,7 @@
 {% extends 'base_template.html'%}
 
 {% block 'titulo'%}
-{{name}}
+Desafio Economia Sensata
 {% endblock%}
 
 {% block 'body' %}
@@ -11,17 +11,22 @@
 
     {% if status == '1'%}  
     <div class="alert alert-danger" role="alert">
-        Todos os campos devem ser preenchidos!
+        <p align="center" class="my-0 py-0" >   Todos os campos devem ser preenchidos!</p>
     </div>
     {%endif%}
     {% if status == '2'%}  
     <div class="alert alert-danger" role="alert">
-        Nenhum campo pode exceder 40% do investimento!
+        <p align="center" class="my-0 py-0" >  Nenhum campo pode exceder 40% do investimento!</p>
     </div>
     {%endif%}
     {% if status == '3'%}  
     <div class="alert alert-danger" role="alert">
-        Para investir mais de 20% em algum campo seria necessário aprovação em uma votação!
+        <p align="center" class="my-0 py-0" > Para investir mais de 20% em algum campo seria necessário aprovação em uma votação!</p>
+    </div>
+    {%endif%}
+    {% if status == '4'%}  
+    <div class="alert alert-danger" role="alert">
+        <p align="center" class="my-0 py-0" > Você já destribuiu o orçamento desse ano!</p>
     </div>
     {%endif%}
 </div>

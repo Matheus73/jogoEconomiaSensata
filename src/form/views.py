@@ -32,7 +32,7 @@ def create_poll(request):
     user_id = request.session.get('user')
     user = User.objects.get(pk=user_id)
     form_name = request.POST.get("form_name")
-    form_name = request.GET['form_name'].replace("_", " ")
+    golpe = request.POST.get("golpe")
     form = Form.objects.filter(name=form_name)[0]
 
     exists_polls = len(Poll.objects.filter(created_by=user, form=form)) > 0
@@ -40,8 +40,11 @@ def create_poll(request):
         return redirect('/?status=4')
     else:
         new_poll = Poll(created_by=user, bloc=user.bloc,
-                        form=form, has_open=True)
+                        form=form, has_open=True, coup=bool(golpe))
         new_poll.save()
+        if bool(golpe):
+            return redirect('/?status=5')
+
         return redirect('/?status=3')
 
 
@@ -61,10 +64,11 @@ def poll(request):
                 else:
                     result = False
                 final_polls.append({"form": i.form.name, "country": creator.country,
-                                   "active": False, "owner": is_my, "poll_id": i.id, "result": result})
+                                   "active": (i.has_open), "owner": is_my, "coup": i.coup, "can_vote": False, "poll_id": i.id, "result": result})
             else:
                 final_polls.append(
-                    {"form": i.form.name, "country": creator.country, "owner": is_my, "active": i.has_open, "poll_id": i.id})
+                    {"form": i.form.name, "country": creator.country, "can_vote": True, "coup": i.coup,  "owner": is_my, "active": i.has_open, "poll_id": i.id})
+
         return render(request, 'polls.html', {"polls": final_polls, "forms": [{"value": i.name.replace(" ", "_"), "name": i.name} for i in forms]})
 
     else:
@@ -74,7 +78,6 @@ def poll(request):
 def check_poll(request):
     choice = request.POST.get("choice")
     poll_id = request.POST.get("poll_id")
-    print(choice, poll_id)
     poll = Poll.objects.get(pk=poll_id)
     if choice == "1":
         poll.pros += 1
@@ -93,7 +96,6 @@ def render_form(request, id):
         if form.active == False:
             return redirect('/?status=1')
         status = request.GET.get('status')
-        print(form.questions['questions'], form.name)
         return render(request, 'form.html',
                       {"questions": form.questions['questions'], "name": form.name, "id": id, "status": status})
     else:
@@ -139,28 +141,45 @@ def check_form(request):
     }
     answers = [{"question": f"question{i}", "answer": request.POST.get(
         f"question{i}")} for i in range(1, 15)]
-    final_json = {}
-    for i in json['questions']:
-        final_json[i['model']] = [
-            int(j["answer"]) for j in answers if j['question'] in i["questions"]]
 
     user_id = request.session.get('user')
     form_id = request.POST.get('id')
     form = Form.objects.get(pk=form_id)
     user = User.objects.get(pk=user_id)
-
     poll = Poll.objects.filter(created_by=user, form=form)
+
+    answered = len(Answer.objects.filter(leader=user, form=form))
+    if answered > 0:
+        return redirect(f'/form/{form_id}/?status=4')
+
     if len(poll) > 0:
         poll = poll[0]
         if poll.coup:
             user.money = str(int(int(user.money)/2))
             user.save()
-        aproved = poll.pros > poll.against
+            aproved = True
+        else:
+            aproved = poll.pros > poll.against
     else:
         aproved = False
 
-    final_json['agricultura'] = [final_json['agricultura'][0]/100 * int(user.money)]
-    final_json['economia'] = [i/100 * int(user.money) for i in final_json['economia']]
+    for i in answers:
+        if i["answer"] == '':
+            return redirect(f'/form/{form_id}/?status=1')
+        elif int(i["answer"]) > 40:
+            return redirect(f'/form/{form_id}/?status=2')
+        elif int(i["answer"]) > 20 and (not aproved or not poll.coup):
+            return redirect(f'/form/{form_id}/?status=3')
+
+    final_json = {}
+    for i in json['questions']:
+        final_json[i['model']] = [
+            int(j["answer"]) for j in answers if j['question'] in i["questions"]]
+
+    final_json['agricultura'] = [
+        final_json['agricultura'][0]/100 * int(user.money)]
+    final_json['economia'] = [
+        i/100 * int(user.money) for i in final_json['economia']]
     final_json['desenvolvimento'] = [
         100 - final_json['desenvolvimento'][0]/0.4 * 100]
     final_json['ambiente'] = [2 * i for i in final_json['ambiente']]
@@ -168,18 +187,7 @@ def check_form(request):
     results = {}
     for i in final_json:
         tmp = final_json[i]
-        tmp.append(0)
         results[i] = predict_min(tmp, i)
-
-
-
-    for i in answers:
-        if i["answer"] == '':
-            return redirect(f'/form/{form_id}/?status=1')
-        elif int(i["answer"]) > 40:
-            return redirect(f'/form/{form_id}/?status=2')
-        elif int(i["answer"]) > 20 and not aproved:
-            return redirect(f'/form/{form_id}/?status=3')
 
     answer = Answer(form=form, leader=user, choices={"answers": answers}, result_agricultura=results['agricultura'],
                     result_educacao=results['educacao'], result_ambiente=results['ambiente'], result_saude=results["saude"],
@@ -187,12 +195,13 @@ def check_form(request):
                     result_bancoCentral=results['banco'], result_economia=results['economia'])
     answer.save()
 
-    sum = answer.result_economia + answer.result_bancoCentral + answer.result_desenvolvimento + answer.result_infraestrutura + answer.result_saude + answer.result_ambiente + answer.result_educacao + answer.result_agricultura
+    sum = answer.result_economia + answer.result_bancoCentral + answer.result_desenvolvimento + answer.result_infraestrutura +\
+        answer.result_saude + answer.result_ambiente +\
+        answer.result_educacao + answer.result_agricultura
 
     percent = 0
     for i in answers:
         percent += int(i['answer'])
-    print(percent)
 
     user.money = str(int(int(user.money) - int(user.money) * (percent/100)))
     if sum > 0:
@@ -200,7 +209,7 @@ def check_form(request):
     else:
         user.money = str(int(int(user.money) * 0.5))
     user.save()
-    return redirect(f'/?status=0')
+    return redirect('/?status=0')
 
 
 def home(request):
@@ -226,10 +235,21 @@ def predict_min(data, name):
     model = pickle.load(open(f"{path}/models/model_{name}.pkl", 'rb'))
     normalizer = pickle.load(
         open(f"{path}/models/normalizer_{name}.pkl", 'rb'))
+    normalizer_out = pickle.load(
+        open(f"{path}/models/normalizer_{name}_out.pkl", 'rb'))
 
     input = normalizer.transform([data])
-    input = [input[0][:-1]]
 
     result = model.predict(input)
+    result = normalizer_out.transform([result])
 
-    return result[0]
+    return result
+
+
+def coup(request, id):
+    if request.session.get('user'):
+        status = request.GET.get('status')
+        return render(request, 'coup.html',
+                      {"status": status, "id": id})
+    else:
+        return redirect('/auth/signin/?status=2')

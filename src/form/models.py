@@ -1,6 +1,7 @@
 from django.db import models
 from user.models import User
 
+
 class Form(models.Model):
     name = models.CharField(max_length=100)
     active = models.BooleanField()
@@ -9,6 +10,7 @@ class Form(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
+
 
 class Answer(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
@@ -26,8 +28,9 @@ class Answer(models.Model):
     def __str__(self) -> str:
         return str(self.leader.name)
 
+
 class Poll(models.Model):
-    created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     bloc = models.CharField(max_length=100)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
     pros = models.IntegerField(default=0)
