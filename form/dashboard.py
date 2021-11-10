@@ -36,21 +36,6 @@ app.layout = html.Div([
     dbc.Row([
             dbc.Col(
                 Div([
-                    Dropdown(
-                        id='meu_dropdown',
-                        value='',
-                        options=[
-                            {'label': x, 'value': x} for x in paises
-                        ]
-                    ),
-                    Checklist(
-                        id='my_checklist',
-                        value=['2023'],
-                        options=[
-                            {'label': x, 'value': x} for x in formularios
-                        ],
-                        labelStyle={'display': 'inline-block'}
-                    ),
                     #H4('Ministério da Agricultura e Desenvolvimento rural'),
                     dcc.Graph(
                         id='Gráfico ministério da agricultura e desenvolvimento',
@@ -89,16 +74,19 @@ app.layout = html.Div([
 
 @app.callback(
     Output('Gráfico ministério da agricultura e desenvolvimento', 'figure'),
-    [Input('meu_dropdown', 'value'), Input('my_checklist', 'value'), Input('interval-component', 'n_intervals')],
+    [Input('interval-component', 'n_intervals')],
 )
-def my_callback(nome_pais, formulario, n):
-    if not nome_pais:
-        nome_pais = ''
-
+def my_callback(n):
     ministerios = ['paises', 'Ano', 'Agricultura', 'Educação', 'Meio Ambiente',
                    'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central',
                    'Economia']
-    
+
+    paises = sorted([i.country for i in User.objects.all(
+            ) if i.country is not None])
+
+
+    formularios = sorted([i.name for i in Form.objects.all()])
+
     tuples = []
     for i in Answer.objects.all():
         leader = i.leader
@@ -111,39 +99,39 @@ def my_callback(nome_pais, formulario, n):
 
     df = pd.DataFrame(tuples, columns=ministerios)
     # df['paises'] = paises * 10
+    fig = go.Figure()
 
-    data = go.Scatter(
-        x=df[(df['Ano'].isin(list(formulario))) & (
-            df['paises'] == nome_pais)].sum().index[2:],
-        y=df[(df['Ano'].isin(list(formulario))) &
-             (df['paises'] == nome_pais)].sum()[2:],
-        marker={'color': '#b86224'},
-        #text = y,
-        textfont={'size': 14},
-        # textposition = 'outside'
-    )
+    for i in paises:
+        fig.add_traces(go.Scatter(
+            x=df[(df['paises'] == i)].sum().index[2:],
+            y=df[(df['paises'] == i)].sum()[2:],
+            #marker={'color': '#b86224'},
+            #text = y,
+            textfont={'size': 14},
+            name = i
+            # textposition = 'outside'
+        ))
 
-    configuracoes_layout = go.Layout(
-        title={
-            'text': f'Rank para {nome_pais}',
-            'font': {'size': 20},
-            'x': 0.5,
-            'xanchor': 'center',
-            'font': {'color': '#bdc3c7'}
-        },
-        xaxis={
-            'title': 'Países',
-            'titlefont': {'color': '#bdc3c7'},
-            'tickfont': {'size': 12},
-        },
-        yaxis={
-            'title': 'Valor para Cada Ministério',
-            'titlefont': {'color': '#bdc3c7'}
-        },
-        template='plotly_white'
-    )
+    fig.update_layout(
+            title={
+                'text': f'Rank por Ministério',
+                'font': {'size': 20},
+                'x': 0.5,
+                'xanchor': 'center',
+                'font': {'color': '#bdc3c7'}
+            },
+            xaxis={
+                'title': 'Países',
+                'titlefont': {'color': '#bdc3c7'},
+                'tickfont': {'size': 12},
+            },
+            yaxis={
+                'title': 'Valor para Cada Ministério',
+                'titlefont': {'color': '#bdc3c7'}
+            },
+            template='plotly_white'
+        )
 
-    fig = go.Figure(data=data, layout=configuracoes_layout)
     return fig
 
 @app.callback(
