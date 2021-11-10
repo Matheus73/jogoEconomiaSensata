@@ -57,14 +57,14 @@ Desafio Economia Sensata
                                     <br>
                                     <div class="row justify-content-center">
                                     {% if i.can_vote %}
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <form  method="POST" action="{% url 'check_poll' %}"> {% csrf_token %}
                                                 <input type="hidden" value="{{i.poll_id}}" name="poll_id">
                                                 <input type="hidden" value="1" name="choice">
                                                 <input class="btn btn-success btn-sm" type="submit" value="Aceitar" name="aceitar">
                                             </form>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-md-4">
                                             <form  method="POST" action="{% url 'check_poll' %}"> {% csrf_token %}
                                                 <input type="hidden" value="{{i.poll_id}}" name="poll_id">
                                                 <input type="hidden" value="0" name="choice">
@@ -72,7 +72,7 @@ Desafio Economia Sensata
                                             </form>
                                         </div>
                                     {% else %}
-                                            <div class="col-4 mb-0 pb-0">
+                                            <div class="col-md-4 mb-0 pb-0">
                                             {%if i.coup%}
                                                     <h3><span class="badge badge-danger">Golpe</span></h3>
                                                 {% elif i.active and not i.coup %}
