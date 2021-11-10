@@ -34,3 +34,4 @@ class Poll(models.Model):
     against = models.IntegerField(default=0)
     votes = models.JSONField(default=dict(votes=[]))
     has_open = models.BooleanField()
+    coup = models.BooleanField(default=False, null=True)

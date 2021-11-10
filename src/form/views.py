@@ -144,18 +144,6 @@ def check_form(request):
         final_json[i['model']] = [
             int(j["answer"]) for j in answers if j['question'] in i["questions"]]
 
-    final_json['agricultura'] = [final_json['agricultura'][0]/100 * 10**12]
-    final_json['economia'] = [i/100 * 10**12 for i in final_json['economia']]
-    final_json['desenvolvimento'] = [
-        100 - final_json['desenvolvimento'][0]/0.4 * 100]
-    final_json['ambiente'] = [0.5 * i for i in final_json['ambiente']]
-
-    results = {}
-    for i in final_json:
-        tmp = final_json[i]
-        tmp.append(0)
-        results[i] = predict_min(tmp, i)
-
     user_id = request.session.get('user')
     form_id = request.POST.get('id')
     form = Form.objects.get(pk=form_id)
@@ -164,9 +152,26 @@ def check_form(request):
     poll = Poll.objects.filter(created_by=user, form=form)
     if len(poll) > 0:
         poll = poll[0]
+        if poll.coup:
+            user.money = str(int(int(user.money)/2))
+            user.save()
         aproved = poll.pros > poll.against
     else:
         aproved = False
+
+    final_json['agricultura'] = [final_json['agricultura'][0]/100 * int(user.money)]
+    final_json['economia'] = [i/100 * int(user.money) for i in final_json['economia']]
+    final_json['desenvolvimento'] = [
+        100 - final_json['desenvolvimento'][0]/0.4 * 100]
+    final_json['ambiente'] = [2 * i for i in final_json['ambiente']]
+
+    results = {}
+    for i in final_json:
+        tmp = final_json[i]
+        tmp.append(0)
+        results[i] = predict_min(tmp, i)
+
+
 
     for i in answers:
         if i["answer"] == '':
@@ -181,6 +186,20 @@ def check_form(request):
                     result_infraestrutura=results['ciencia'], result_desenvolvimento=results['desenvolvimento'],
                     result_bancoCentral=results['banco'], result_economia=results['economia'])
     answer.save()
+
+    sum = answer.result_economia + answer.result_bancoCentral + answer.result_desenvolvimento + answer.result_infraestrutura + answer.result_saude + answer.result_ambiente + answer.result_educacao + answer.result_agricultura
+
+    percent = 0
+    for i in answers:
+        percent += int(i['answer'])
+    print(percent)
+
+    user.money = str(int(int(user.money) - int(user.money) * (percent/100)))
+    if sum > 0:
+        user.money = str(int(int(user.money) * 1.5))
+    else:
+        user.money = str(int(int(user.money) * 0.5))
+    user.save()
     return redirect(f'/?status=0')
 
 
