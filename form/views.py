@@ -31,9 +31,14 @@ def dashboard(request):
 def create_poll(request):
     user_id = request.session.get('user')
     user = User.objects.get(pk=user_id)
+
     form_name = request.POST.get('form_name')
     golpe = request.POST.get('golpe')
     form = Form.objects.filter(name=form_name)[0]
+    if not user.country and bool(golpe):
+        return redirect('/?status=6')
+    elif not user.country:
+        return redirect('/?status=7')
 
     exists_polls = len(Poll.objects.filter(created_by=user, form=form)) > 0
     if exists_polls:
@@ -147,6 +152,9 @@ def check_form(request):
     form = Form.objects.get(pk=form_id)
     user = User.objects.get(pk=user_id)
     poll = Poll.objects.filter(created_by=user, form=form)
+
+    if not user.country:
+        return redirect(f'/form/{form_id}/?status=5')
 
     answered = len(Answer.objects.filter(leader=user, form=form))
     if answered > 0:

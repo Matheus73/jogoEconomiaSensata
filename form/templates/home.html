@@ -40,6 +40,16 @@ Desafio Economia Sensata
         <p align="center" class="my-0 py-0" > Golpe Identificado!! Seu orçamento foi reduzido em 50% ! </p>
     </div>
     {%endif%}
+    {% if status == '6'%}  
+    <div class="alert alert-danger" role="alert">
+        <p align="center" class="my-0 py-0" > Você ainda não tem permissão para dar golpe. Aguarde aprovação! </p>
+    </div>
+    {%endif%}
+    {% if status == '7'%}  
+    <div class="alert alert-danger" role="alert">
+        <p align="center" class="my-0 py-0" > Você ainda não tem permissão para abrir votação. Aguarde aprovação! </p>
+    </div>
+    {%endif%}
 </div>
 
 <div class="container">

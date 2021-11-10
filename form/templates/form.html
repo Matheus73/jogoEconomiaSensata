@@ -29,6 +29,11 @@ Desafio Economia Sensata
         <p align="center" class="my-0 py-0" > Você já destribuiu o orçamento desse ano!</p>
     </div>
     {%endif%}
+    {% if status == '5'%}  
+    <div class="alert alert-danger" role="alert">
+        <p align="center" class="my-0 py-0" > Você ainda não tem permissão para distribuir o orçamento. Aguarde aprovação!</p>
+    </div>
+    {%endif%}
 </div>
 
 <div class="container">
