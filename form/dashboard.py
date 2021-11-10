@@ -140,7 +140,7 @@ def my_callback(n):
 )
 
 def my_graph(n):
-    
+
     tuples = []
     for i in Answer.objects.all():
         leader = i.leader
@@ -181,7 +181,7 @@ def my_graph(n):
     for i in somas:
         user = User.objects.filter(country=i)[0]
         somas_final[i] = somas[i] + (0.1 * blocos[user.bloc]['media'])
-    
+
 
     data = go.Bar(
         x=list(somas.keys()),

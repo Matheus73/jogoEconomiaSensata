@@ -25,7 +25,10 @@ from sklearn.ensemble import AdaBoostRegressor
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    user_id = request.session.get('user')
+    user = User.objects.get(pk=user_id)
+    admin = user.is_admin
+    return render(request, 'dashboard.html',{'admin': admin})
 
 
 def create_poll(request):
@@ -57,6 +60,7 @@ def poll(request):
     if request.session.get('user'):
         user_id = request.session.get('user')
         user = User.objects.get(pk=user_id)
+        admin = user.is_admin
         polls = Poll.objects.filter(bloc=user.bloc)
         forms = Form.objects.filter(active=True)
         final_polls = []
@@ -74,7 +78,7 @@ def poll(request):
                 final_polls.append(
                     {'form': i.form.name, 'country': creator.country, 'can_vote': True, 'coup': i.coup,  'owner': is_my, 'active': i.has_open, 'poll_id': i.id})
 
-        return render(request, 'polls.html', {'polls': final_polls, 'forms': [{'value': i.name.replace(' ', '_'), 'name': i.name} for i in forms]})
+        return render(request, 'polls.html', {'polls': final_polls, 'forms': [{'value': i.name.replace(' ', '_'), 'name': i.name} for i in forms], 'admin': admin})
 
     else:
         return redirect('/auth/signin/?status=2')
@@ -98,11 +102,14 @@ def check_poll(request):
 def render_form(request, id):
     if request.session.get('user'):
         form = Form.objects.get(pk=id)
+        user_id = request.session.get('user')
+        user = User.objects.get(pk=user_id)
+        admin = user.is_admin
         if form.active == False:
             return redirect('/?status=1')
         status = request.GET.get('status')
         return render(request, 'form.html',
-                      {'questions': form.questions['questions'], 'name': form.name, 'id': id, 'status': status})
+                      {'questions': form.questions['questions'], 'name': form.name, 'id': id, 'status': status, 'admin': admin})
     else:
         return redirect('/auth/signin/?status=2')
 
@@ -223,8 +230,11 @@ def check_form(request):
 def home(request):
     if request.session.get('user'):
         status = request.GET.get('status')
+        user_id = request.session.get('user')
+        user = User.objects.get(pk=user_id)
+        admin = user.is_admin
         return render(request, 'home.html',
-                      {'status': status})
+                      {'status': status, 'admin': admin})
     else:
         return redirect('/auth/signin/?status=2')
 
@@ -232,8 +242,11 @@ def home(request):
 def about(request):
     if request.session.get('user'):
         status = request.GET.get('status')
+        user_id = request.session.get('user')
+        user = User.objects.get(pk=user_id)
+        admin = user.is_admin
         return render(request, 'about.html',
-                      {'status': status})
+                      {'status': status, 'admin': admin})
     else:
         return redirect('/auth/signin/?status=2')
 
@@ -253,11 +266,3 @@ def predict_min(data, name):
 
     return result
 
-
-def coup(request, id):
-    if request.session.get('user'):
-        status = request.GET.get('status')
-        return render(request, 'coup.html',
-                      {'status': status, 'id': id})
-    else:
-        return redirect('/auth/signin/?status=2')

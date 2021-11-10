@@ -9,6 +9,7 @@ class User(models.Model):
     country = models.CharField(max_length=100, null=True, default=None)
     bloc = models.CharField(null=True, default=None, max_length=100)
     money = models.CharField(max_length=100, default='1000000000000')
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return str(self.name)
