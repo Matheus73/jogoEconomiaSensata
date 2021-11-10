@@ -9,36 +9,18 @@ Desafio Economia Sensata
 
 <div class="container">
 
-    {% if status == '0'%}  <div class="alert alert-success" role="alert">
-        Resposta salva com sucesso!
-    </div>
-    
-    {%endif%}
-    {% if status == '1'%}  
-    <div class="alert alert-danger" role="alert">
-        O Formulario se encontra fechado!
-    </div>
-    {%endif%}
-    {% if status == '2'%}  
-    <div class="alert alert-success" role="alert">
-        Voto computado!
-    </div>
-    {%endif%}
-</div>
-
-<div class="container">
-
     <div class="row">
-        <div class="col-md">
+        <div class="col-md-12">
             <br>
             <h1>Dashboard</h1>
             <hr/>
             <div width=500px height=500px>
-            {% load plotly_dash %}
+                {% load plotly_dash %}
 
-            {% plotly_app name="SimpleExample" ratio=1 %}
-
+                {% plotly_app name="SimpleExample" ratio=1 %}
+                
             </div>
+        </div>
     </div>
 </div>
 {% endblock %}
