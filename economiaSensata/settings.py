@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+import sys
+
+
+sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +33,7 @@ SECRET_KEY = "oi"
 # DEBUG = os.environ['DEBUG']
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1' ]
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -42,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'form',
-    'django_plotly_dash.apps.DjangoPlotlyDashConfig'
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'fontawesome_free'
 ]
 
 MIDDLEWARE = [
