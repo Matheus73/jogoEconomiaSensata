@@ -1,136 +1,136 @@
 {
   "questions": [
     {
-        "name": "Agricultura e desenvolvimento rural",
-        "model": "agricultura",
-        "questions": [
-          {
-            "question": "Valor deseja investir em agricultura, silvicultura e pesca?",
-            "name": "question1",
-            "type": "number",
-            "key": "NV.AGR.TOTL.CD"
-          }
-        ]
+      "name": "Agricultura e desenvolvimento rural",
+      "model": "agricultura",
+      "questions": [
+        {
+          "question": "Valor deseja investir em agricultura, silvicultura e pesca?",
+          "name": "question1",
+          "type": "number",
+          "key": "NV.AGR.TOTL.CD"
+        }
+      ]
     },
     {
-        "name":"Educação",
-        "model": "educacao",
-        "questions": [
-          {
-            "question": "Quanto deseja gastar com a educação primária (%) ?",
-            "name": "question2",
-            "type": "number",
-            "key": "SE.XPD.PRIM.ZS"
-          },
-          {
-            "question": "Quanto deseja gastar com a educação secundária (%) ?",
-            "name": "question3",
-            "type": "number",
-            "key": "SE.XPD.SECO.ZS"
-          },
-          {
-            "question": "Quanto deseja gastar com a educação terciária (%) ?",
-            "name": "question4",
-            "type": "number",
-            "key": "SE.XPD.TERT.ZS"
-          }
-        ]
+      "name": "Educação",
+      "model": "educacao",
+      "questions": [
+        {
+          "question": "Quanto deseja gastar com a educação primária (%) ?",
+          "name": "question2",
+          "type": "number",
+          "key": "SE.XPD.PRIM.ZS"
+        },
+        {
+          "question": "Quanto deseja gastar com a educação secundária (%) ?",
+          "name": "question3",
+          "type": "number",
+          "key": "SE.XPD.SECO.ZS"
+        },
+        {
+          "question": "Quanto deseja gastar com a educação terciária (%) ?",
+          "name": "question4",
+          "type": "number",
+          "key": "SE.XPD.TERT.ZS"
+        }
+      ]
     },
     {
-      "name":"Mudanças climáticas e Meio Ambiente",
-        "model": "ambiente",
-        "questions": [
-          {
-            "question": "Da emissão de gases poluentes anual, quantos porcento são originados da emissão de metano (%)?",
-            "name": "question5",
-            "type": "number",
-            "ministerio": "EN.ATM.METH.AG.ZS"
-          },
-          {
-            "question": "Da emissão de gases poluentes anual, quantos porcento são originados da emissão de óxido nitroso (%)?",
-            "name": "question6",
-            "type": "number",
-            "ministerio": "EN.ATM.NOXE.AG.ZS"
-          },
-          {
-            "question": "Da emissão de gases poluentes anual, quantos porcento são oriundos da emissão de CO2 do consumo de combustível gasoso (%)?",
-            "name": "question7",
-            "type": "number",
-            "ministerio": "EN.ATM.CO2E.GF.ZS"
-          }
-        ]
+      "name": "Mudanças climáticas e Meio Ambiente",
+      "model": "ambiente",
+      "questions": [
+        {
+          "question": "Quanto deseja investir para reduzir a emissão de metano (%)?",
+          "name": "question5",
+          "type": "number",
+          "ministerio": "EN.ATM.METH.AG.ZS"
+        },
+        {
+          "question": "Quanto deseja investir para reduzir a emissão de óxido nitroso (%)?",
+          "name": "question6",
+          "type": "number",
+          "ministerio": "EN.ATM.NOXE.AG.ZS"
+        },
+        {
+          "question": "Quanto deseja investir para reduzir a emissão de CO2 do consumo de combustível gasoso (%)?",
+          "name": "question7",
+          "type": "number",
+          "ministerio": "EN.ATM.CO2E.GF.ZS"
+        }
+      ]
     },
     {
-      "name":"Saúde",
-        "model": "saude",
-        "questions": [
-          {
-            "question": "Qual será o valor total gasto com saúde por ano (%)?",
-            "name": "question8",
-            "type": "number",
-            "key": "SH.XPD.CHEX.GD.ZS"
-          }
-        ]
+      "name": "Saúde",
+      "model": "saude",
+      "questions": [
+        {
+          "question": "Qual será o valor total gasto com saúde por ano (%)?",
+          "name": "question8",
+          "type": "number",
+          "key": "SH.XPD.CHEX.GD.ZS"
+        }
+      ]
     },
     {
-      "name":"Infraestreutura, Ciência e Tecnologia",
-        "model": "ciencia",
-        "questions": [
-          {
-            "question": "Quanto gastará com pesquisa e desenvolvimento nesse ano (%)?",
-            "name": "question9",
-            "type": "number",
-            "key": "GB.XPD.RSDV.GD.ZS"
-          }
-        ]
+      "name": "Infraestreutura, Ciência e Tecnologia",
+      "model": "ciencia",
+      "questions": [
+        {
+          "question": "Quanto gastará com pesquisa e desenvolvimento nesse ano (%)?",
+          "name": "question9",
+          "type": "number",
+          "key": "GB.XPD.RSDV.GD.ZS"
+        }
+      ]
     },
     {
-      "name":"Desenvolvimento",
-        "model": "desenvolvimento",
-        "questions": [
-          {
-            "question": "Quanto deseja investir para combater a desigualdade no país (%)?",
-            "name": "question10",
-            "type": "number",
-            "key": "SI.POV.GINI"
-          }
-        ]
+      "name": "Desenvolvimento",
+      "model": "desenvolvimento",
+      "questions": [
+        {
+          "question": "Quanto deseja investir para combater a desigualdade no país (%)?",
+          "name": "question10",
+          "type": "number",
+          "key": "SI.POV.GINI"
+        }
+      ]
     },
     {
-      "name":"Banco Central",
-        "model": "banco",
-        "questions": [
-          {
-            "question": "Qual a taxa de juros de depósito (%)?",
-            "name": "question11",
-            "type": "number",
-            "key": "FR.INR.DPST"
-          }
-        ]
+      "name": "Banco Central",
+      "model": "banco",
+      "questions": [
+        {
+          "question": "Qual a taxa de juros de depósito (%)?",
+          "name": "question11",
+          "type": "number",
+          "key": "FR.INR.DPST"
+        }
+      ]
     },
     {
-      "name":"Economia",
-        "model": "economia",
-        "questions": [
-          {
-            "question": "Qual o valor adicionado a indústria (incluindo construção) ao ano?",
-            "name": "question12",
-            "type": "number",
-            "key": "NV.IND.TOTL.CD"
-          },
-          {
-            "question": "Qual o valor adicionado, por ano, a fabricação?",
-            "name": "question13",
-            "type": "number",
-            "key": "NV.IND.MANF.CD"
-          },
-          {
-            "question": "Qual o valor adicionado, por ano, a serviços?",
-            "name": "question14",
-            "type": "number",
-            "key": "NV.SRV.TOTL.CD"
-          }
-        ]
-      }
+      "name": "Economia",
+      "model": "economia",
+      "questions": [
+        {
+          "question": "Qual o valor adicionado a indústria (incluindo construção) ao ano?",
+          "name": "question12",
+          "type": "number",
+          "key": "NV.IND.TOTL.CD"
+        },
+        {
+          "question": "Qual o valor adicionado, por ano, a fabricação?",
+          "name": "question13",
+          "type": "number",
+          "key": "NV.IND.MANF.CD"
+        },
+        {
+          "question": "Qual o valor adicionado, por ano, a serviços?",
+          "name": "question14",
+          "type": "number",
+          "key": "NV.SRV.TOTL.CD"
+        }
+      ]
+    }
   ]
 }

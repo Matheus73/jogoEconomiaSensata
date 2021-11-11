@@ -28,7 +28,7 @@ def dashboard(request):
     user_id = request.session.get('user')
     user = User.objects.get(pk=user_id)
     admin = user.is_admin
-    return render(request, 'dashboard.html',{'admin': admin})
+    return render(request, 'dashboard.html', {'admin': admin})
 
 
 def create_poll(request):
@@ -72,13 +72,26 @@ def poll(request):
                     result = True
                 else:
                     result = False
-                final_polls.append({'form': i.form.name, 'country': creator.country,
-                                   'active': (i.has_open), 'owner': is_my, 'coup': i.coup, 'can_vote': False, 'poll_id': i.id, 'result': result})
+                final_polls.append({'form': i.form.name,
+                                    'country': creator.country,
+                                   'active': (i.has_open),
+                                    'owner': is_my,
+                                    'coup': i.coup,
+                                    'can_vote': False,
+                                    'poll_id': i.id,
+                                    'result': result})
             else:
-                final_polls.append(
-                    {'form': i.form.name, 'country': creator.country, 'can_vote': True, 'coup': i.coup,  'owner': is_my, 'active': i.has_open, 'poll_id': i.id})
+                final_polls.append({'form': i.form.name,
+                                    'country': creator.country,
+                                    'can_vote': True,
+                                    'coup': i.coup,
+                                    'owner': is_my,
+                                    'active': i.has_open,
+                                    'poll_id': i.id})
 
-        return render(request, 'polls.html', {'polls': final_polls, 'forms': [{'value': i.name.replace(' ', '_'), 'name': i.name} for i in forms], 'admin': admin})
+        return render(request, 'polls.html', {'polls': final_polls,
+                                              'forms': [{'value': i.name.replace(' ', '_'), 'name': i.name} for i in forms],
+                                              'admin': admin})
 
     else:
         return redirect('/auth/signin/?status=2')
@@ -181,9 +194,11 @@ def check_form(request):
     for i in answers:
         if i['answer'] == '':
             return redirect(f'/form/{form_id}/?status=1')
-        elif int(i['answer']) > 40:
+        elif int(i['answer']) > 40 and i.get('question') != 'question11':
             return redirect(f'/form/{form_id}/?status=2')
-        elif int(i['answer']) > 20 and (not aproved or not poll.coup):
+        elif int(i['answer']) > 20 and (not aproved or not poll.coup)\
+                and i.get('question') != 'question11':
+
             return redirect(f'/form/{form_id}/?status=3')
 
     final_json = {}
@@ -197,26 +212,35 @@ def check_form(request):
         i/100 * int(user.money) for i in final_json['economia']]
     final_json['desenvolvimento'] = [
         100 - final_json['desenvolvimento'][0]/0.4 * 100]
-    final_json['ambiente'] = [2 * i for i in final_json['ambiente']]
+    final_json['ambiente'] = [40 - i for i in final_json['ambiente']]
 
     results = {}
     for i in final_json:
         tmp = final_json[i]
         results[i] = predict_min(tmp, i)
 
-    answer = Answer(form=form, leader=user, choices={'answers': answers}, result_agricultura=results['agricultura'],
-                    result_educacao=results['educacao'], result_ambiente=results['ambiente'], result_saude=results['saude'],
-                    result_infraestrutura=results['ciencia'], result_desenvolvimento=results['desenvolvimento'],
-                    result_bancoCentral=results['banco'], result_economia=results['economia'])
+    answer = Answer(form=form,
+                    leader=user,
+                    choices={'answers': answers},
+                    result_agricultura=results['agricultura'],
+                    result_educacao=results['educacao'],
+                    result_ambiente=results['ambiente'],
+                    result_saude=results['saude'],
+                    result_infraestrutura=results['ciencia'],
+                    result_desenvolvimento=results['desenvolvimento'],
+                    result_bancoCentral=results['banco'],
+                    result_economia=results['economia'])
     answer.save()
 
-    sum = answer.result_economia + answer.result_bancoCentral + answer.result_desenvolvimento + answer.result_infraestrutura +\
+    sum = answer.result_economia + answer.result_bancoCentral +\
+        answer.result_desenvolvimento + answer.result_infraestrutura +\
         answer.result_saude + answer.result_ambiente +\
         answer.result_educacao + answer.result_agricultura
 
     percent = 0
     for i in answers:
-        percent += int(i['answer'])
+        if i.get('question') != 'question11':
+            percent += int(i['answer'])
 
     user.money = str(int(int(user.money) - int(user.money) * (percent/100)))
     if sum > 0:
@@ -265,4 +289,3 @@ def predict_min(data, name):
     result = normalizer_out.transform([result])
 
     return result
-

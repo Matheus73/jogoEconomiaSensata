@@ -8,7 +8,6 @@ Desafio Economia Sensata
 <br>
 
 <div class="container">
-
     {% if status == '1'%}  
     <div class="alert alert-danger" role="alert">
         <p align="center" class="my-0 py-0" >   Todos os campos devem ser preenchidos!</p>
@@ -49,12 +48,13 @@ Desafio Economia Sensata
                     <h3>{{i.name}}</h3>
                     {% for j in i.questions %}
                     <label>{{j.question}}</label>
-                    <input class="form-control" type="{{j.type}}" placeholder="0% a 100%" name = "{{j.name}}">
+                    <input class="form-control" type="{{j.type}}" placeholder="0% a 40%" name = "{{j.name}}">
                     <br>
                 {% endfor %}
                 {% endfor %}
-                <input class="btn btn-success btn-lg" type="submit" value="Enviar">
-                <br/>
+                <div class="pt-1 my-3">
+              <button class="btn btn-dark btn-lg btn-block" type="submit">Investir</button>
+              </div>
             </form>
         </div>
     </div>
