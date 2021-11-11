@@ -206,10 +206,10 @@ def check_form(request):
         final_json[i['model']] = [
             int(j['answer']) for j in answers if j['question'] in i['questions']]
 
-    final_json['agricultura'] = [
-        final_json['agricultura'][0]/100 * int(user.money)]
+    # final_json['agricultura'] = [
+    #     final_json['agricultura'][0]/100 * int(user.money)]
     final_json['economia'] = [
-        i/100 * int(user.money) for i in final_json['economia']]
+        i + 30 for i in final_json['economia']]
     final_json['desenvolvimento'] = [
         100 - final_json['desenvolvimento'][0]/0.4 * 100]
     final_json['ambiente'] = [40 - i for i in final_json['ambiente']]

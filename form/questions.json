@@ -5,7 +5,7 @@
       "model": "agricultura",
       "questions": [
         {
-          "question": "Valor deseja investir em agricultura, silvicultura e pesca?",
+          "question": "Quantos % do seu orçamento você deseja alocar para políticas de desenvolvimento da agricultura, silvicultura e pescas",
           "name": "question1",
           "type": "number",
           "key": "NV.AGR.TOTL.CD"
@@ -17,19 +17,19 @@
       "model": "educacao",
       "questions": [
         {
-          "question": "Quanto deseja gastar com a educação primária (%) ?",
+          "question": "Quantos % do seu orçamento você deseja gastar com educação primária?",
           "name": "question2",
           "type": "number",
           "key": "SE.XPD.PRIM.ZS"
         },
         {
-          "question": "Quanto deseja gastar com a educação secundária (%) ?",
+          "question": "Quantos % do seu orçamento você deseja gastar com educação secundária?",
           "name": "question3",
           "type": "number",
           "key": "SE.XPD.SECO.ZS"
         },
         {
-          "question": "Quanto deseja gastar com a educação terciária (%) ?",
+          "question": "Quantos % do seu orçamento você deseja gastar com ensino terciária?",
           "name": "question4",
           "type": "number",
           "key": "SE.XPD.TERT.ZS"
@@ -89,7 +89,7 @@
       "model": "desenvolvimento",
       "questions": [
         {
-          "question": "Quanto deseja investir para combater a desigualdade no país (%)?",
+          "question": "Quantos % do seu orçamento você deseja investir para melhorar o idh do seu país?",
           "name": "question10",
           "type": "number",
           "key": "SI.POV.GINI"
@@ -101,7 +101,7 @@
       "model": "banco",
       "questions": [
         {
-          "question": "Qual a taxa de juros de depósito (%)?",
+          "question": "Taxa de juros básica (meta)?",
           "name": "question11",
           "type": "number",
           "key": "FR.INR.DPST"
@@ -113,19 +113,19 @@
       "model": "economia",
       "questions": [
         {
-          "question": "Qual o valor adicionado a indústria (incluindo construção) ao ano?",
+          "question": "Quantos % do seu orçamento você deseja investir na indústria (incluindo construção)?",
           "name": "question12",
           "type": "number",
           "key": "NV.IND.TOTL.CD"
         },
         {
-          "question": "Qual o valor adicionado, por ano, a fabricação?",
+          "question": "Quantos % do seu orçamento você deseja investir na fabricação?",
           "name": "question13",
           "type": "number",
           "key": "NV.IND.MANF.CD"
         },
         {
-          "question": "Qual o valor adicionado, por ano, a serviços?",
+          "question": "Quantos % do seu orçamento você deseja investir nos serviços?",
           "name": "question14",
           "type": "number",
           "key": "NV.SRV.TOTL.CD"
