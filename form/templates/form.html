@@ -44,14 +44,17 @@ Desafio Economia Sensata
             <hr>
             <form method="POST" action="{% url 'check_form'  %}"> {% csrf_token %}
                 <input type="hidden" value="{{id}}" name="id">
+                <ol>
                 {% for i in questions %}
                     <h3>{{i.name}}</h3>
                     {% for j in i.questions %}
-                    <label>{{j.question}}</label>
+                    <li>{{j.question}}</li>
+                    {# <label></label> #}
                     <input class="form-control" type="{{j.type}}" placeholder="0% a 40%" name = "{{j.name}}">
                     <br>
                 {% endfor %}
                 {% endfor %}
+                </ol>
                 <div class="pt-1 my-3">
               <button class="btn btn-dark btn-lg btn-block" type="submit">Investir</button>
               </div>
