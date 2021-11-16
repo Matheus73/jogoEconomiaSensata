@@ -17,19 +17,19 @@
       "model": "educacao",
       "questions": [
         {
-          "question": "Quantos % do seu orçamento você deseja gastar com educação primária?",
+          "question": "Qual o percentual do orçamento destinado à educação da primeira infância?",
           "name": "question2",
           "type": "number",
           "key": "SE.XPD.PRIM.ZS"
         },
         {
-          "question": "Quantos % do seu orçamento você deseja gastar com educação secundária?",
+          "question": "Qual o percentual do orçamento destinado à educação básica?",
           "name": "question3",
           "type": "number",
           "key": "SE.XPD.SECO.ZS"
         },
         {
-          "question": "Quantos % do seu orçamento você deseja gastar com ensino terciária?",
+          "question": "Qual o percentual do orçamento destinado ao ensino superior?",
           "name": "question4",
           "type": "number",
           "key": "SE.XPD.TERT.ZS"
@@ -47,13 +47,13 @@
           "ministerio": "EN.ATM.METH.AG.ZS"
         },
         {
-          "question": "Quanto deseja investir para reduzir a emissão de óxido nitroso (%)?",
+          "question": "Qual o percentual do orçamento destinado à redução da emissão de óxido nitroso?",
           "name": "question6",
           "type": "number",
           "ministerio": "EN.ATM.NOXE.AG.ZS"
         },
         {
-          "question": "Quanto deseja investir para reduzir a emissão de CO2 do consumo de combustível gasoso (%)?",
+          "question": "Qual o percentual do orçamento destinado à redução da emissão de CO2?",
           "name": "question7",
           "type": "number",
           "ministerio": "EN.ATM.CO2E.GF.ZS"
@@ -65,7 +65,7 @@
       "model": "saude",
       "questions": [
         {
-          "question": "Qual será o valor total gasto com saúde por ano (%)?",
+          "question": "Qual o percentual do orçamento destinado ao Ministério da Saúde?",
           "name": "question8",
           "type": "number",
           "key": "SH.XPD.CHEX.GD.ZS"
@@ -77,7 +77,7 @@
       "model": "ciencia",
       "questions": [
         {
-          "question": "Quanto gastará com pesquisa e desenvolvimento nesse ano (%)?",
+          "question": "Qual o percentual do orçamento destinado ao Ministério da Infraestrutura?",
           "name": "question9",
           "type": "number",
           "key": "GB.XPD.RSDV.GD.ZS"
@@ -89,7 +89,7 @@
       "model": "desenvolvimento",
       "questions": [
         {
-          "question": "Quantos % do seu orçamento você deseja investir para melhorar o idh do seu país?",
+          "question": "Qual o percentual do orçamento destinado ao Ministério do Desenvolvimento?",
           "name": "question10",
           "type": "number",
           "key": "SI.POV.GINI"
@@ -101,7 +101,7 @@
       "model": "banco",
       "questions": [
         {
-          "question": "Taxa de juros básica (meta)?",
+          "question": "Qual será a meta para a taxa básica de juros no ano que vem?",
           "name": "question11",
           "type": "number",
           "key": "FR.INR.DPST"
@@ -113,19 +113,19 @@
       "model": "economia",
       "questions": [
         {
-          "question": "Quantos % do seu orçamento você deseja investir na indústria (incluindo construção)?",
+          "question": "Qual o percentual do orçamento destinado ao desenvolvimento industrial?",
           "name": "question12",
           "type": "number",
           "key": "NV.IND.TOTL.CD"
         },
         {
-          "question": "Quantos % do seu orçamento você deseja investir na fabricação?",
+          "question": "Qual o percentual do orçamento destinado ao estímulo da produção de bens de consumo?",
           "name": "question13",
           "type": "number",
           "key": "NV.IND.MANF.CD"
         },
         {
-          "question": "Quantos % do seu orçamento você deseja investir nos serviços?",
+          "question": "Qual o percentual do orçamento destinado ao estímulo do setor de serviços?",
           "name": "question14",
           "type": "number",
           "key": "NV.SRV.TOTL.CD"
