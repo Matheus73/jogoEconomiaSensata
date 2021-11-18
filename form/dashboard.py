@@ -22,16 +22,12 @@ app = DjangoDash('SimpleExample')
 paises = sorted([i.country for i in User.objects.all(
 ) if i.country is not None])
 
-
-formularios = sorted([i.name for i in Form.objects.all()])
-
 ministerios = ['paises', 'Agricultura', 'Educação', 'Meio Ambiente',
                'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central', 'Economia']
 
 
 app.layout = html.Div([
     H4('Ranking por ministério'),
-
     # Ranking por ministério
     dbc.Row([
             dbc.Col(
@@ -67,7 +63,38 @@ app.layout = html.Div([
                     )
                 ]),
                 width=12)]),
-
+    H4('Resultados por Blocos'),
+    dbc.Row([
+            dbc.Col(
+                Div([
+                    dcc.Graph(
+                        id='Gráfico blocos',
+                        config={'displayModeBar': False},
+                        figure={}
+                    ),
+                    dcc.Interval(
+                        id='interval-component',
+                        interval=10*3000, # in milliseconds
+                        n_intervals=0
+                    )
+                ]),
+                width=12)]),
+    H4('Resultados por Blocos e Ministério'),
+    dbc.Row([
+            dbc.Col(
+                Div([
+                    dcc.Graph(
+                        id='Gráfico blocos e ministério',
+                        config={'displayModeBar': False},
+                        figure={}
+                    ),
+                    dcc.Interval(
+                        id='interval-component',
+                        interval=10*3000, # in milliseconds
+                        n_intervals=0
+                    )
+                ]),
+                width=12)])
 
 ])
 
@@ -84,9 +111,6 @@ def my_callback(n):
     paises = sorted([i.country for i in User.objects.all(
             ) if i.country is not None])
 
-
-    formularios = sorted([i.name for i in Form.objects.all()])
-
     tuples = []
     for i in Answer.objects.all():
         leader = i.leader
@@ -98,7 +122,6 @@ def my_callback(n):
                        i.result_bancoCentral, i.result_economia])
 
     df = pd.DataFrame(tuples, columns=ministerios)
-    # df['paises'] = paises * 10
     fig = go.Figure()
 
     for i in paises:
@@ -140,7 +163,7 @@ def my_callback(n):
 )
 
 def my_graph(n):
-
+    
     tuples = []
     for i in Answer.objects.all():
         leader = i.leader
@@ -181,12 +204,12 @@ def my_graph(n):
     for i in somas:
         user = User.objects.filter(country=i)[0]
         somas_final[i] = somas[i] + (0.1 * blocos[user.bloc]['media'])
-
+    
 
     data = go.Bar(
         x=list(somas.keys()),
         y=list(somas.values()),
-        marker={'color': '#e99e2a'},
+        #marker={'color': '#e99e2a'},
         #text = y1,
         textfont={'size': 14},
         textposition='outside',
@@ -204,13 +227,6 @@ def my_graph(n):
     )
 
     configuracoes_layout = go.Layout(
-        # title = {
-        # 'text': f'Rank para o {ministerio}',
-        # 'font': {'size': 20},
-        # 'x': 0.5,
-        # 'xanchor': 'center',
-        # 'font': {'color': '#bdc3c7'}
-        # },
         xaxis={
             'title': 'Países',
             'titlefont': {'color': '#bdc3c7'},
@@ -224,4 +240,113 @@ def my_graph(n):
     )
 
     fig = go.Figure(data=[data, data2], layout=configuracoes_layout)
+    return fig
+
+@app.callback(
+    Output('Gráfico blocos', 'figure'),
+    [Input('interval-component', 'n_intervals')],
+)
+
+def graph_bloc(n):
+    
+    colunas = ['paises', 'Formulário', 'Bloco', 'Agricultura', 'Educação', 'Meio Ambiente',
+               'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central', 'Economia']
+    tuples = []
+    for i in Answer.objects.all():
+        leader = i.leader
+        form = i.form
+        bloc = User.objects.filter(name=i.leader)[0].bloc
+        tuples.append([leader.country, form.name, bloc, i.result_agricultura, i.result_educacao, i.result_ambiente,
+                    i.result_saude, i.result_infraestrutura, i.result_desenvolvimento,
+                    i.result_bancoCentral, i.result_economia])
+    df = pd.DataFrame(tuples, columns=colunas)
+
+    fig = go.Figure()
+    blocos = {}
+    for f in df['Formulário'].unique():
+        for i in df['Bloco'].unique():
+            soma = 0
+            for j in df[(df["Bloco"] == i) & (df['Formulário'] == f)].iloc[:, 3:].sum():
+                soma += j
+            blocos[i] = soma 
+            print(blocos)
+        fig.add_trace(go.Bar(
+                x=list(blocos.keys()),
+                y=list(blocos.values()),
+                #marker={'color': '#e99e2a'},
+                #text = y1,
+                textfont={'size': 14},
+                textposition='outside',
+                name=f
+            ))
+
+    fig.update_layout(
+        xaxis={
+            'title': 'Países',
+            'titlefont': {'color': '#bdc3c7'},
+            'tickfont': {'size': 12},
+        },
+        yaxis={
+            'title': 'Valor Conquistado no Rodada',
+            'titlefont': {'color': '#bdc3c7'}
+        },
+        template='plotly_white',
+        barmode='stack'
+    )
+
+    #fig = go.Figure(data=[data], layout=configuracoes_layout)
+    return fig
+
+@app.callback(
+    Output('Gráfico blocos e ministério', 'figure'),
+    [Input('interval-component', 'n_intervals')],
+)
+
+def graph_form(n):
+    
+    #formularios = sorted([i.name for i in Form.objects.all()])
+    colunas = ['paises', 'Formulário', 'Bloco', 'Agricultura', 'Educação', 'Meio Ambiente',
+               'Saúde', 'Ciência', 'Desenvolvimento', 'Banco Central', 'Economia']
+    tuples = []
+    for i in Answer.objects.all():
+        leader = i.leader
+        form = i.form
+        bloc = User.objects.filter(name=i.leader)[0].bloc
+        tuples.append([leader.country, form.name, bloc, i.result_agricultura, i.result_educacao, i.result_ambiente,
+                    i.result_saude, i.result_infraestrutura, i.result_desenvolvimento,
+                    i.result_bancoCentral, i.result_economia])
+    df = pd.DataFrame(tuples, columns=colunas)
+    print(df.head())
+
+    fig = go.Figure()
+    
+    blocos_ministerio = {}
+    for i in df['Bloco'].unique():
+        soma = {}
+        for j in df.columns[3:]:
+            soma[j] = df[df['Bloco'] == i][j].sum()
+        blocos_ministerio[i] = soma
+        fig.add_trace(go.Bar(
+                x=list(blocos_ministerio[i].keys()),
+                y=list(blocos_ministerio[i].values()),
+                #marker={'colorscale': "Earth"},   
+                #text = y1,
+                textfont={'size': 14},
+                textposition='outside',
+                #colorscale="Cividis",
+                name=i
+            ))
+
+    fig.update_layout(
+        xaxis={
+            'title': 'Países',
+            'titlefont': {'color': '#bdc3c7'},
+            'tickfont': {'size': 12},
+        },
+        yaxis={
+            'title': 'Valor Conquistado no Rodada',
+            'titlefont': {'color': '#bdc3c7'}
+        },
+        template='plotly_white'
+    )
     return fig
