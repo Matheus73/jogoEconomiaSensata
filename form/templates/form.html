@@ -50,7 +50,7 @@ Desafio Economia Sensata
                     {% for j in i.questions %}
                     <li>{{j.question}}</li>
                     {# <label></label> #}
-                    <input class="form-control" type="{{j.type}}" placeholder="0% a 40%" name = "{{j.name}}">
+                    <input class="form-control" type="{{j.type}}" step="0.01" placeholder="0% a 40%" name = "{{j.name}}">
                     <br>
                 {% endfor %}
                 {% endfor %}

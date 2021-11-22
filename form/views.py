@@ -194,9 +194,9 @@ def check_form(request):
     for i in answers:
         if i['answer'] == '':
             return redirect(f'/form/{form_id}/?status=1')
-        elif int(i['answer']) > 40 and i.get('question') != 'question11':
+        elif float(i['answer']) > 40.0 and i.get('question') != 'question11':
             return redirect(f'/form/{form_id}/?status=2')
-        elif int(i['answer']) > 20 and (not aproved or not poll.coup)\
+        elif float(i['answer']) > 20.0 and (not aproved or not poll.coup)\
                 and i.get('question') != 'question11':
 
             return redirect(f'/form/{form_id}/?status=3')
@@ -204,7 +204,7 @@ def check_form(request):
     final_json = {}
     for i in json['questions']:
         final_json[i['model']] = [
-            int(j['answer']) for j in answers if j['question'] in i['questions']]
+            float(j['answer']) for j in answers if j['question'] in i['questions']]
 
     # final_json['agricultura'] = [
     #     final_json['agricultura'][0]/100 * int(user.money)]
@@ -240,7 +240,7 @@ def check_form(request):
     percent = 0
     for i in answers:
         if i.get('question') != 'question11':
-            percent += int(i['answer'])
+            percent += float(i['answer'])
 
     user.money = str(int(int(user.money) - int(user.money) * (percent/100)))
     if sum > 0:
