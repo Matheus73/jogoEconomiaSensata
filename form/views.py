@@ -196,9 +196,8 @@ def check_form(request):
             return redirect(f'/form/{form_id}/?status=1')
         elif float(i['answer']) > 40.0 and i.get('question') != 'question11':
             return redirect(f'/form/{form_id}/?status=2')
-        elif float(i['answer']) > 20.0 and (not aproved or not poll.coup)\
+        elif float(i['answer']) > 20.0 and (not aproved)\
                 and i.get('question') != 'question11':
-
             return redirect(f'/form/{form_id}/?status=3')
 
     final_json = {}
